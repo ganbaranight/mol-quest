@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOL QUEST</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Arial", sans-serif;
+  color: white;
+  background:
+    radial-gradient(ellipse at 50% 35%, #344b83 0%, #172345 45%, #090f24 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+.game {
+  width: 100%;
+  max-width: 650px;
+  text-align: center;
+  padding: 35px 20px;
+  border: 2px solid #7185b8;
+  border-radius: 22px;
+  background: rgba(10, 19, 44, 0.82);
+  box-shadow: 0 0 35px #536cb855;
+}
+
+.symbol {
+  font-size: 55px;
+  margin-bottom: 5px;
+}
+
+h1 {
+  font-size: clamp(42px, 10vw, 68px);
+  letter-spacing: 5px;
+  margin: 5px 0;
+  color: #ffe59a;
+  text-shadow: 0 0 15px #e7b94d;
+}
+
+.subtitle {
+  color: #b8c9f5;
+  letter-spacing: 4px;
+  font-size: 13px;
+}
+
+.story {
+  margin: 30px auto;
+  line-height: 2;
+  color: #e2e8ff;
+  font-size: 14px;
+}
+
+.start-button {
+  display: block;
+  width: 85%;
+  max-width: 300px;
+  margin: 15px auto;
+  padding: 17px;
+  border: 2px solid #ffe59a;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e8b64e, #a66c25);
+  color: #24162a;
+  font-size: 19px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 5px 0 #68451e;
+}
+
+.start-button:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #68451e;
+}
+
+.sub-button {
+  background: transparent;
+  border: 1px solid #7185b8;
+  color: #dce5ff;
+  border-radius: 9px;
+  padding: 12px 22px;
+  margin: 8px;
+  cursor: pointer;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.info {
+  margin-top: 30px;
+  color: #92a5d5;
+  font-size: 12px;
+}
+
+.choice {
+  display: block;
+  width: 90%;
+  max-width: 340px;
+  margin: 12px auto;
+  padding: 15px;
+  border: 1px solid #8195c5;
+  border-radius: 10px;
+  background: #26385e;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<main class="game">
+
+  <!-- タイトル画面 -->
+  <section id="title" class="screen active">
+    <div class="symbol">⚗️ ✨</div>
+    <h1>MOL QUEST</h1>
+    <div class="subtitle">THE ADVENTURE OF CHEMISTRY</div>
+
+    <div class="story">
+      ここは、物質の不思議が眠る世界。<br>
+      モルの力を手に入れ、<br>
+      化学の冒険に出発しよう！
+    </div>
+
+    <button class="start-button" onclick="showScreen('menu')">
+      ▶ 冒険をはじめる
+    </button>
+
+    <div class="info">
+      CHEMISTRY RPG PROJECT
+    </div>
+  </section>
+
+  <!-- メニュー画面 -->
+  <section id="menu" class="screen">
+    <div class="symbol">🧙‍♂️</div>
+    <h1 style="font-size:38px;">冒険の準備</h1>
+    <p class="story">
+      どの冒険に挑戦する？
+    </p>
+
+    <button class="choice" onclick="showScreen('battle')">
+      ⚔️ モルの修行
+    </button>
+
+    <button class="choice" onclick="alert('図鑑は次の開発段階で実装するよ！')">
+      📖 モンスター図鑑
+    </button>
+
+    <button class="choice" onclick="alert('記録機能は次の開発段階で実装するよ！')">
+      🏆 冒険の記録
+    </button>
+
+    <button class="sub-button" onclick="showScreen('title')">
+      タイトルに戻る
+    </button>
+  </section>
+
+  <!-- バトル画面（仮） -->
+  <section id="battle" class="screen">
+    <div class="symbol">👾</div>
+<p id="monsterHP">スライム HP：100 / 100</p>
+<div style="width:100%; background:#444; border-radius:10px; overflow:hidden;">
+  <div id="hpBar" style="width:100%; height:16px; background:#4ade80; transition:width 0.4s;"></div>
+</div>
+
+    <h1 style="font-size:35px;">BATTLE!</h1>
+    <p class="story">
+      スライムがあらわれた！<br>
+      モルの知識で勝利をつかめ！
+    </p>
+<div id="quiz">
+  <h2>第1問</h2>
+  <p>水 H₂O 18 g は何 mol？</p>
+
+  <button onclick="checkAnswer(0.5)">0.5 mol</button>
+  <button onclick="checkAnswer(1)">1.0 mol</button>
+  <button onclick="checkAnswer(2)">2.0 mol</button>
+
+  <p id="result"></p>
+</div>
+
+    <button class="sub-button" onclick="showScreen('menu')">
+      戻る
+    </button>
+  </section>
+
+</main>
+<script>
+  let monsterHP = 100;
+function checkAnswer(answer) {
+  const result = document.getElementById("result");
+
+  if (answer === 1) {
+  monsterHP = Math.max(0, monsterHP - 20);
+document.getElementById("hpBar").style.width = monsterHP + "%";
+  document.getElementById("monsterHP").textContent =
+    "スライム HP：" + monsterHP + " / 100";
+
+  result.textContent = "🎉 正解！スライムに20ダメージ！";
+  result.style.color = "#4ade80";
+if (monsterHP === 0) {
+  result.textContent = "🏆 勝利！スライムを倒した！";
+}
+
+  } else {
+    result.textContent = "❌ 不正解！もう一度考えよう！";
+    result.style.color = "#f87171";
+  }
+  }
+  </script>
+
+
+<script>
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(screen => {
+    screen.classList.remove('active');
+  });
+
+  document.getElementById(id).classList.add('active');
+}
+</script>
+
+</body>
+</html>
+
+
+
