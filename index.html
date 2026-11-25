@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MOL QUEST Ver.3.2</title>
+<title>MOL QUEST Ver.3.3</title>
 
 <style>
 *{box-sizing:border-box}
@@ -293,7 +293,10 @@ p{line-height:1.7}
   padding:15px 5px;
   font-size:12px;
 }
-.monster-card .emoji{font-size:40px;margin-bottom:7px}
+.monster-card .emoji{
+  font-size:40px;
+  margin-bottom:7px;
+}
 .monster-card.unknown{opacity:.45}
 .result-row{
   display:flex;
@@ -317,7 +320,9 @@ p{line-height:1.7}
   75%{transform:translateX(-4px)}
 }
 @media(max-width:380px){
-  .atoms{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .atoms{
+    grid-template-columns:repeat(4,minmax(0,1fr))
+  }
   .key{min-height:48px}
   .panel{padding:12px}
 }
@@ -333,7 +338,9 @@ p{line-height:1.7}
   <div class="panel center" style="padding:48px 18px">
     <div class="symbol">⚗️✨</div>
     <h1>MOL QUEST</h1>
-    <div class="muted">THE ADVENTURE OF CHEMISTRY</div>
+    <div class="muted">
+      THE ADVENTURE OF CHEMISTRY
+    </div>
     <p class="story">
       ここは、物質の不思議が眠る世界。<br>
       モルの力を手に入れ、<br>
@@ -343,11 +350,11 @@ p{line-height:1.7}
       onclick="showScreen('menu')">
       ▶ 冒険をはじめる
     </button>
-    <p class="muted">VERSION 3.2</p>
+    <p class="muted">VERSION 3.3</p>
   </div>
 </section>
 
-<!-- メニュー -->
+<!-- メニュー画面 -->
 
 <section id="menu" class="screen">
   <div class="panel center">
@@ -398,7 +405,7 @@ p{line-height:1.7}
   </div>
 </section>
 
-<!-- 7分間チャレンジ -->
+<!-- チャレンジ説明 -->
 
 <section id="challenge" class="screen">
   <div class="panel center">
@@ -443,7 +450,6 @@ p{line-height:1.7}
 <section id="battle" class="screen">
 
   <div class="panel center">
-
     <div id="clock" class="clock"></div>
     <p id="stageName" class="muted"></p>
     <div id="monsterIcon" class="symbol">👾</div>
@@ -560,6 +566,7 @@ p{line-height:1.7}
     </div>
 
     <div class="action-row">
+
       <button class="btn"
         id="hintBtn"
         onclick="toggleHelp('hint')">
@@ -577,10 +584,13 @@ p{line-height:1.7}
         onclick="toggleHelp('model')">
         📝 模範解答
       </button>
+
     </div>
 
     <div id="help" class="help"></div>
-    <div id="feedback" class="feedback"
+
+    <div id="feedback"
+      class="feedback"
       aria-live="polite"></div>
 
     <button id="next"
@@ -594,6 +604,7 @@ p{line-height:1.7}
   <!-- 定数・原子量 -->
 
   <div class="constants">
+
     <h2>つかう ていすう</h2>
 
     <div class="constant-row">
@@ -608,6 +619,7 @@ p{line-height:1.7}
 
     <h2 style="margin-top:24px">原子量</h2>
     <div class="atoms" id="atoms"></div>
+
   </div>
 
   <!-- まほうのちず -->
@@ -635,42 +647,54 @@ p{line-height:1.7}
 
         <rect x="121" y="183"
           width="98" height="82" rx="9"/>
+
       </g>
 
       <g text-anchor="middle"
         fill="#fff" font-size="14">
+
         <text x="44" y="80">質量</text>
         <text x="170" y="80">物質量</text>
         <text x="295" y="80">粒子数</text>
         <text x="170" y="207">気体の体積</text>
+
       </g>
 
       <g text-anchor="middle"
         fill="#fff" font-size="25"
         font-weight="bold">
+
         <text x="44" y="112">m</text>
         <text x="170" y="112">n</text>
         <text x="295" y="112">N</text>
         <text x="170" y="237">V</text>
+
       </g>
 
       <g text-anchor="middle"
         fill="#a9b6df" font-size="12">
+
         <text x="44" y="131">g</text>
         <text x="170" y="131">mol</text>
         <text x="295" y="131">個</text>
         <text x="170" y="256">L</text>
+
       </g>
 
       <g text-anchor="middle"
-        fill="#ffda62" font-size="11"
+        fill="#ffda62"
+        font-size="11"
         font-weight="bold">
+
         <text x="107" y="80">÷M →</text>
         <text x="107" y="116">← ×M</text>
+
         <text x="233" y="80">×Nₐ →</text>
         <text x="233" y="116">← ÷Nₐ</text>
+
         <text x="230" y="168">↓ ×22.4</text>
         <text x="105" y="168">↑ ÷22.4</text>
+
       </g>
 
       <path d="M170 142 V181"
@@ -689,7 +713,9 @@ p{line-height:1.7}
 
     <p class="map-note">
       M はモル質量（g/mol）。<br>
-      気体の体積は標準状態で扱います。
+      気体の体積は標準状態で扱います。<br>
+      特定の原子やイオンの数を求めるときは、
+      化学式中の原子数やイオンの組成比にも注目しよう。
     </p>
 
   </div>
@@ -704,6 +730,7 @@ p{line-height:1.7}
 <!-- 結果画面 -->
 
 <section id="victory" class="screen">
+
   <div class="panel center">
 
     <div class="symbol">🏆✨</div>
@@ -730,6 +757,7 @@ p{line-height:1.7}
     </button>
 
   </div>
+
 </section>
 
 </main>
@@ -769,8 +797,10 @@ $('atoms').innerHTML=atoms.map(([a,v])=>
 
 // ========================================
 // 物質データ
+//
 // 名前・化学式・モル質量の計算式
-// 気体か・原子数・元素名・粒子の種類
+// 気体か・特定の原子数・元素名
+// 種類（分子・原子・イオン結晶）
 // ========================================
 
 const substances=[
@@ -786,12 +816,12 @@ const substances=[
   ['プロパン','C₃H₈','12*3+1*8',true,8,'水素','分子'],
   ['二酸化硫黄','SO₂','32+16*2',true,2,'酸素','分子'],
 
-  ['塩化ナトリウム','NaCl','23+35.5',false,0,'','組成式で表される粒子'],
-  ['水酸化ナトリウム','NaOH','23+16+1',false,0,'','組成式で表される粒子'],
-  ['炭酸カルシウム','CaCO₃','40+12+16*3',false,0,'','組成式で表される粒子'],
-  ['硫酸アルミニウム','Al₂(SO₄)₃','27*2+(32+16*4)*3',false,0,'','組成式で表される粒子'],
-  ['水酸化カルシウム','Ca(OH)₂','40+(16+1)*2',false,0,'','組成式で表される粒子'],
-  ['炭酸ナトリウム','Na₂CO₃','23*2+12+16*3',false,0,'','組成式で表される粒子'],
+  ['塩化ナトリウム','NaCl','23+35.5',false,0,'','イオン結晶'],
+  ['水酸化ナトリウム','NaOH','23+16+1',false,0,'','イオン結晶'],
+  ['炭酸カルシウム','CaCO₃','40+12+16*3',false,0,'','イオン結晶'],
+  ['硫酸アルミニウム','Al₂(SO₄)₃','27*2+(32+16*4)*3',false,0,'','イオン結晶'],
+  ['水酸化カルシウム','Ca(OH)₂','40+(16+1)*2',false,0,'','イオン結晶'],
+  ['炭酸ナトリウム','Na₂CO₃','23*2+12+16*3',false,0,'','イオン結晶'],
 
   ['エタノール','C₂H₅OH','12*2+1*6+16',false,6,'水素','分子'],
   ['グルコース','C₆H₁₂O₆','12*6+1*12+16*6',false,12,'水素','分子'],
@@ -800,15 +830,73 @@ const substances=[
   ['硫酸','H₂SO₄','1*2+32+16*4',false,4,'酸素','分子'],
   ['硝酸','HNO₃','1+14+16*3',false,3,'酸素','分子'],
 
-  ['酸化アルミニウム','Al₂O₃','27*2+16*3',false,0,'','組成式で表される粒子'],
-  ['酸化鉄(III)','Fe₂O₃','56*2+16*3',false,0,'','組成式で表される粒子'],
-  ['硫酸銅(II)','CuSO₄','64+32+16*4',false,0,'','組成式で表される粒子'],
-  ['塩化カルシウム','CaCl₂','40+35.5*2',false,0,'','組成式で表される粒子'],
+  ['酸化アルミニウム','Al₂O₃','27*2+16*3',false,0,'','イオン結晶'],
+  ['酸化鉄(III)','Fe₂O₃','56*2+16*3',false,0,'','イオン結晶'],
+  ['硫酸銅(II)','CuSO₄','64+32+16*4',false,0,'','イオン結晶'],
+  ['塩化カルシウム','CaCl₂','40+35.5*2',false,0,'','イオン結晶'],
 
   ['鉄','Fe','56',false,0,'','原子'],
   ['銅','Cu','64',false,0,'','原子'],
   ['アルミニウム','Al','27',false,0,'','原子']
 ];
+
+// ========================================
+// イオンデータ Ver.3.3
+// イオン名・イオン式・組成比
+// ========================================
+
+const ionData={
+
+  'NaCl':[
+    ['ナトリウムイオン','Na⁺',1],
+    ['塩化物イオン','Cl⁻',1]
+  ],
+
+  'NaOH':[
+    ['ナトリウムイオン','Na⁺',1],
+    ['水酸化物イオン','OH⁻',1]
+  ],
+
+  'CaCO₃':[
+    ['カルシウムイオン','Ca²⁺',1],
+    ['炭酸イオン','CO₃²⁻',1]
+  ],
+
+  'Al₂(SO₄)₃':[
+    ['アルミニウムイオン','Al³⁺',2],
+    ['硫酸イオン','SO₄²⁻',3]
+  ],
+
+  'Ca(OH)₂':[
+    ['カルシウムイオン','Ca²⁺',1],
+    ['水酸化物イオン','OH⁻',2]
+  ],
+
+  'Na₂CO₃':[
+    ['ナトリウムイオン','Na⁺',2],
+    ['炭酸イオン','CO₃²⁻',1]
+  ],
+
+  'Al₂O₃':[
+    ['アルミニウムイオン','Al³⁺',2],
+    ['酸化物イオン','O²⁻',3]
+  ],
+
+  'Fe₂O₃':[
+    ['鉄(III)イオン','Fe³⁺',2],
+    ['酸化物イオン','O²⁻',3]
+  ],
+
+  'CuSO₄':[
+    ['銅(II)イオン','Cu²⁺',1],
+    ['硫酸イオン','SO₄²⁻',1]
+  ],
+
+  'CaCl₂':[
+    ['カルシウムイオン','Ca²⁺',1],
+    ['塩化物イオン','Cl⁻',2]
+  ]
+};
 
 // ========================================
 // モンスター
@@ -836,7 +924,7 @@ const stages=[
   {
     name:'モルの森',
     icon:'🌳',
-    desc:'粒子数・気体の体積 ⇄ 物質量',
+    desc:'分子数・原子数・気体の体積 ⇄ 物質量',
     enemies:[2,3]
   },
   {
@@ -848,7 +936,7 @@ const stages=[
   {
     name:'化学竜の城',
     icon:'🏰',
-    desc:'原子数・複雑な化学式・応用問題',
+    desc:'特定の原子数・イオン数・複雑な組成式',
     enemies:[7,8]
   }
 ];
@@ -910,10 +998,10 @@ function sci(n){
   if(Math.abs(n)>=1e9||
     (n!==0&&Math.abs(n)<.001)){
 
-    return n.toExponential(10)
-      .replace(/\.?0+e/,'e')
-      .replace('e+','E')
-      .replace('e-','E-');
+    const parts=n.toExponential(10).split('e');
+
+    return Number(parts[0])+
+      'E'+Number(parts[1]);
   }
 
   return String(n);
@@ -951,7 +1039,14 @@ function formatNumber(n){
 }
 
 // ========================================
-// 問題文の生成 Ver.3.2
+// 問題生成 Ver.3.3
+//
+// m：質量
+// n：物質量
+// p：分子数または金属原子数
+// v：気体の体積
+// a：分子中の特定の原子数
+// i：特定のイオン数
 // ========================================
 
 function generate(){
@@ -959,24 +1054,59 @@ function generate(){
   const pairs=
     level===1?
       ['mn','nm']:
+
     level===2?
       ['pn','np','vn','nv']:
+
     level===3?
       ['mp','pm','mv','vm','pv','vp']:
-      ['ma','na','pa','va','mn','nm',
-       'mp','pm','mv','vm'];
+
+      [
+        'ma','na','pa','va',
+        'an','am',
+        'ni','mi','in','im',
+        'ni','mi','in','im',
+        'mn','nm','mp','pm'
+      ];
 
   const pair=pick(pairs);
+
   const [from,to]=pair;
 
-  const pool=substances.filter(s=>
+  // 問題の種類に応じて物質を絞る
 
-    (!pair.includes('v')||s[3])&&
+  const pool=substances.filter(s=>{
 
-    (!pair.includes('a')||s[4]>0)&&
+    const formula=s[1];
+    const isGas=s[3];
+    const atomCount=s[4];
+    const kind=s[6];
 
-    (level!==1||!s[2].includes('('))
-  );
+    if(pair.includes('v')&&!isGas){
+      return false;
+    }
+
+    if(pair.includes('a')&&
+      (kind!=='分子'||atomCount===0)){
+      return false;
+    }
+
+    if(pair.includes('i')&&
+      !ionData[formula]){
+      return false;
+    }
+
+    if(pair.includes('p')&&
+      kind==='イオン結晶'){
+      return false;
+    }
+
+    if(level===1&&s[2].includes('(')){
+      return false;
+    }
+
+    return true;
+  });
 
   const [
     name,
@@ -987,6 +1117,14 @@ function generate(){
     atomName,
     particle
   ]=pick(pool);
+
+  // イオン数の問題では陽イオンまたは陰イオンを選択
+
+  const ion=pair.includes('i')?
+    pick(ionData[formula]):
+    ['', '', 1];
+
+  const [ionName,ionFormula,ionCount]=ion;
 
   const M=parseMath(molarExpr).value;
 
@@ -1000,7 +1138,8 @@ function generate(){
     n:n,
     p:clean(n*NA),
     v:clean(n*VM),
-    a:clean(n*NA*(atomCount||1))
+    a:clean(n*NA*(atomCount||1)),
+    i:clean(n*NA*ionCount)
   };
 
   const units={
@@ -1008,30 +1147,20 @@ function generate(){
     n:'mol',
     p:'個',
     v:'L',
-    a:'個'
+    a:'個',
+    i:'個'
   };
 
   const labels={
     m:'質量',
     n:'物質量',
-    p:'粒子数',
+    p:particle==='原子'?'原子数':'分子数',
     v:'気体の体積',
-    a:'原子数'
+    a:'原子数',
+    i:'イオン数'
   };
 
   const start=sci(vals[from]);
-
-  const factors={
-    m:`(${molarExpr})`,
-    p:'6.0E23',
-    v:'22.4'
-  };
-
-  const numericFactors={
-    m:M,
-    p:NA,
-    v:VM
-  };
 
   let model=start;
 
@@ -1039,70 +1168,98 @@ function generate(){
     {value:vals[from],sign:1}
   ];
 
-  if(from!=='n'){
+  // 物質量への換算に必要な因数
 
-    model+='/'+factors[from];
+  const conversion={
+
+    m:[
+      [`(${molarExpr})`,M]
+    ],
+
+    p:[
+      ['6.0E23',NA]
+    ],
+
+    v:[
+      ['22.4',VM]
+    ],
+
+    a:[
+      ['6.0E23',NA],
+      [String(atomCount||1),atomCount||1]
+    ],
+
+    i:[
+      ['6.0E23',NA],
+      [String(ionCount),ionCount]
+    ],
+
+    n:[]
+  };
+
+  // 与えられた量から物質量へ
+
+  for(const [expr,value] of conversion[from]){
+
+    if(value===1&&expr==='1'){
+      continue;
+    }
+
+    model+='/'+expr;
 
     expected.push({
-      value:numericFactors[from],
+      value:value,
       sign:-1
     });
   }
 
-  if(to==='a'){
+  // 物質量から求める量へ
 
-    model+='*6.0E23*'+atomCount;
+  for(const [expr,value] of conversion[to]){
 
-    expected.push({
-      value:NA,
-      sign:1
-    });
+    if(value===1&&expr==='1'){
+      continue;
+    }
 
-    expected.push({
-      value:atomCount,
-      sign:1
-    });
-
-  }else if(to!=='n'){
-
-    model+='*'+factors[to];
+    model+='*'+expr;
 
     expected.push({
-      value:numericFactors[to],
+      value:value,
       sign:1
     });
   }
 
-  // 自然な問題文を生成
+  // ========================================
+  // 問題文
+  // ========================================
 
   const substance=`${name} ${formula}`;
+
   const amount=pretty(start);
 
-  const ionic=
-    particle==='組成式で表される粒子';
+  const particleName=
+    particle==='原子'?
+      name+'原子':
+      name+'分子';
+
+  const ionLabel=
+    `${ionName} ${ionFormula}`;
 
   let subject='';
 
   if(from==='m'){
+
     subject=`${substance} ${amount} g`;
   }
 
   if(from==='n'){
+
     subject=`${substance} ${amount} mol`;
   }
 
   if(from==='p'){
 
-    if(ionic){
-
-      subject=
-        `${substance} の組成式 ${formula} で表される粒子 ${amount} 個`;
-
-    }else{
-
-      subject=
-        `${substance} の${particle} ${amount} 個`;
-    }
+    subject=`${particleName} ${amount} 個`;
   }
 
   if(from==='v'){
@@ -1113,55 +1270,111 @@ function generate(){
 
   let text='';
 
-  if(to==='m'){
+  // イオン数が与えられる問題
+
+  if(from==='i'){
+
+    const target=
+      to==='m'?'質量':'物質量';
+
+    text=
+      `${substance} に含まれる${ionLabel}が `+
+      `${amount} 個である。`+
+      `${name}の${target}は何 ${units[to]} か。`;
+
+  // 特定の原子数が与えられる問題
+
+  }else if(from==='a'){
+
+    const target=
+      to==='m'?'質量':'物質量';
+
+    text=
+      `${substance} に含まれる${atomName}原子が `+
+      `${amount} 個である。`+
+      `${name}の${target}は何 ${units[to]} か。`;
+
+  // 質量を求める
+
+  }else if(to==='m'){
+
     text=`${subject} の質量は何 g か。`;
-  }
 
-  if(to==='n'){
+  // 物質量を求める
+
+  }else if(to==='n'){
+
     text=`${subject} の物質量は何 mol か。`;
-  }
 
-  if(to==='v'){
+  // 気体の体積を求める
+
+  }else if(to==='v'){
 
     text=
       `${subject} の標準状態における体積は何 L か。`;
-  }
 
-  if(to==='p'){
+  // 分子数・金属原子数を求める
 
-    if(ionic){
+  }else if(to==='p'){
 
-      text=
-        `${subject} について、組成式 ${formula} で表される粒子の数は何個か。`;
+    text=
+      `${subject} に含まれる${particleName}は何個か。`;
 
-    }else{
+  // 特定の原子数を求める
 
-      text=
-        `${subject} に含まれる${particle}は何個か。`;
-    }
-  }
-
-  if(to==='a'){
+  }else if(to==='a'){
 
     text=
       `${subject} に含まれる${atomName}原子は何個か。`;
+
+  // イオン数を求める
+
+  }else if(to==='i'){
+
+    text=
+      `${subject} に含まれる${ionLabel}は何個か。`;
   }
 
+  // ========================================
   // ヒント
+  // ========================================
 
   const toMolHints={
-    m:'質量をモル質量で割る。',
-    p:'粒子数をアボガドロ定数で割る。',
-    v:'気体の体積を22.4で割る。',
-    n:'与えられた物質量を使う。'
+
+    m:'質量をモル質量で割ろう。',
+
+    p:'粒子数をアボガドロ定数で割ろう。',
+
+    v:'気体の体積を22.4で割ろう。',
+
+    n:'与えられた物質量を使おう。',
+
+    a:
+      `${atomName}原子の数をアボガドロ定数で割り、`+
+      `1分子中の${atomName}原子の数で割ろう。`,
+
+    i:
+      `${ionName}の数をアボガドロ定数で割り、`+
+      `化学式から求めたイオンの組成比を使おう。`
   };
 
   const fromMolHints={
-    m:'物質量にモル質量を掛ける。',
-    p:'物質量にアボガドロ定数を掛ける。',
-    v:'物質量に22.4を掛ける。',
+
+    m:'物質量にモル質量を掛けよう。',
+
+    p:'物質量にアボガドロ定数を掛けよう。',
+
+    v:'物質量に22.4を掛けよう。',
+
     n:'',
-    a:`分子数を求め、1分子中の${atomName}原子の数を掛ける。`
+
+    a:
+      `分子数を求め、`+
+      `1分子中の${atomName}原子の数を掛けよう。`,
+
+    i:
+      `化学式から${ionName}の物質量を求め、`+
+      `アボガドロ定数を掛けよう。`
   };
 
   let hint=
@@ -1172,33 +1385,75 @@ function generate(){
     hint+=' モル質量は原子量から求めよう。';
   }
 
-  if(to==='a'){
+  if(pair.includes('a')){
 
     hint+=
       ` 1分子中の${atomName}原子は${atomCount}個。`;
   }
 
-  // 解説
+  if(pair.includes('i')){
 
-  const explain=
-    (pair.includes('m')?
-      `モル質量：${pretty(molarExpr)} = ${M} g/mol。 `:
-      '')+
-    `物質量は ${n} mol。 `+
-    `${pretty(model)} = ${formatNumber(vals[to])} ${units[to]}`;
+    hint+=
+      ` ${name} 1 mol に対して、`+
+      `${ionName}は${ionCount} mol 含まれるよ。`;
+  }
+
+  // ========================================
+  // 解説
+  // ========================================
+
+  let explain='';
+
+  if(pair.includes('m')){
+
+    explain+=
+      `モル質量：${pretty(molarExpr)} = ${M} g/mol。 `;
+  }
+
+  if(pair.includes('a')){
+
+    explain+=
+      `1分子中に${atomName}原子が`+
+      `${atomCount}個含まれる。 `;
+  }
+
+  if(pair.includes('i')){
+
+    explain+=
+      `化学式 ${formula} より、`+
+      `${name}と${ionName}の物質量の比は`+
+      `1：${ionCount}。 `;
+  }
+
+  explain+=
+    `${name}の物質量は ${n} mol。 `+
+    `${pretty(model)} = `+
+    `${formatNumber(vals[to])} ${units[to]}`;
 
   return {
+
     category:labels[from]+' → '+labels[to],
+
     text:text,
+
     unit:units[to],
+
     answer:vals[to],
+
     modelExpr:model,
+
     molarExpr:molarExpr,
+
     expected:expected,
+
     from:from,
+
     to:to,
+
     hint:hint,
+
     explain:explain,
+
     model:
       `${pretty(model)} = `+
       `${formatNumber(vals[to])} ${units[to]}`
@@ -1214,7 +1469,9 @@ function showScreen(id){
   if(id!=='battle'){
 
     active=false;
+
     clearInterval(timer);
+
     timer=null;
   }
 
@@ -1288,6 +1545,7 @@ function tick(){
   if(!timed){
 
     $('clock').textContent='通常クエスト';
+
     $('clock').className='clock';
 
     return;
@@ -1322,6 +1580,7 @@ function updateStatus(){
   const m=monsters[monsterId];
 
   $('monsterIcon').textContent=m[0];
+
   $('monsterName').textContent=m[1];
 
   $('monsterHP').textContent=
@@ -1336,7 +1595,9 @@ function updateStatus(){
     '#4ade80';
 
   $('levelDisplay').textContent=level;
+
   $('correctDisplay').textContent=correct;
+
   $('killDisplay').textContent=kills;
 
   $('stageName').textContent=
@@ -1368,19 +1629,26 @@ function loadQuestion(){
   hintUsed=false;
 
   $('category').textContent=q.category;
+
   $('question').textContent=q.text;
+
   $('unit').textContent='答えの単位：'+q.unit;
 
   $('progress').textContent=
     `第${correct+1}問`;
 
   $('feedback').className='feedback';
+
   $('help').className='help';
+
   $('next').className='btn gold wide next';
 
   $('attack').disabled=false;
+
   $('hintBtn').disabled=false;
+
   $('explainBtn').disabled=true;
+
   $('modelBtn').disabled=true;
 
   $('powerDisplay').textContent='攻撃力：20';
@@ -1388,6 +1656,7 @@ function loadQuestion(){
   $('powerDisplay').style.color='#aebfe7';
 
   updateStatus();
+
   updateDisplay();
 }
 
@@ -1428,6 +1697,7 @@ function clearInput(){
   if(locked)return;
 
   expression='';
+
   cursor=0;
 
   updateDisplay();
@@ -1453,6 +1723,7 @@ function backspace(){
 function updateDisplay(){
 
   let html='';
+
   let inExp=false;
 
   for(let i=0;i<=expression.length;i++){
@@ -1465,6 +1736,7 @@ function updateDisplay(){
     )){
 
       html+='</sup>';
+
       inExp=false;
     }
 
@@ -1478,6 +1750,7 @@ function updateDisplay(){
     if(c==='E'){
 
       html+='×10<sup>';
+
       inExp=true;
 
       continue;
@@ -1680,13 +1953,17 @@ function calcNode(node){
   }
 
   const a=calcNode(node.left);
+
   const b=calcNode(node.right);
 
   switch(node.op){
 
     case '+':return a+b;
+
     case '-':return a-b;
+
     case '*':return a*b;
+
     case '/':return a/b;
   }
 
@@ -1794,6 +2071,8 @@ function formulaOK(question,tree){
     return false;
   }
 
+  // 換算の計算を含むこと
+
   if(tree.op!=='*'&&tree.op!=='/'){
 
     return false;
@@ -1875,21 +2154,23 @@ function checkAnswer(){
 
   attempts++;
 
-  // 数値が違う場合
+  // 計算結果が違う場合
 
   if(!approx(parsed.value,q.answer)){
 
     streak=0;
 
-    feedback(
-      '❌ 計算結果が違うよ。まほうのちずを見て、掛け算と割り算の方向を確認しよう！',
-      'bad'
-    );
+    const message=
+      q.from==='i'||q.to==='i'?
+      '❌ 計算結果が違うよ。イオンの組成比とアボガドロ定数を確認しよう！':
+      '❌ 計算結果が違うよ。まほうのちずを見て、掛け算と割り算の方向を確認しよう！';
+
+    feedback(message,'bad');
 
     return;
   }
 
-  // 数値は合っているが式が違う場合
+  // 答えは合っているが計算式が不十分な場合
 
   if(!formulaOK(q,parsed.tree)){
 
@@ -1908,6 +2189,7 @@ function checkAnswer(){
   locked=true;
 
   correct++;
+
   streak++;
 
   bestStreak=Math.max(
@@ -1947,8 +2229,11 @@ function checkAnswer(){
   updateStatus();
 
   $('attack').disabled=true;
+
   $('hintBtn').disabled=true;
+
   $('explainBtn').disabled=false;
+
   $('modelBtn').disabled=false;
 
   feedback(message,'ok');
@@ -2090,11 +2375,17 @@ function saved(){
     if(!data)return empty;
 
     return {
+
       best:Number(data.best)||0,
+
       kills:Number(data.kills)||0,
+
       collection:
         Array.isArray(data.collection)?
-        data.collection:[]
+        data.collection.filter(
+          id=>Number.isInteger(id)&&
+          id>=0&&id<monsters.length
+        ):[]
     };
 
   }catch{
