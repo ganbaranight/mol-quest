@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MOL QUEST Ver.3.3</title>
+<title>MOL QUEST Ver.3.4</title>
 
 <style>
 *{box-sizing:border-box}
@@ -350,7 +350,7 @@ p{line-height:1.7}
       onclick="showScreen('menu')">
       ▶ 冒険をはじめる
     </button>
-    <p class="muted">VERSION 3.3</p>
+    <p class="muted">VERSION 3.4</p>
   </div>
 </section>
 
@@ -369,7 +369,7 @@ p{line-height:1.7}
 
     <button class="btn gold wide"
       onclick="showScreen('challenge')">
-      ⏱ 7分間チャレンジ
+      ⏱ 5分間チャレンジ
     </button>
 
     <button class="btn wide"
@@ -405,15 +405,15 @@ p{line-height:1.7}
   </div>
 </section>
 
-<!-- チャレンジ説明 -->
+<!-- 5分間チャレンジ -->
 
 <section id="challenge" class="screen">
   <div class="panel center">
     <div class="symbol">⏳</div>
     <h1 style="font-size:32px">TIME ATTACK</h1>
-    <h2>7分間チャレンジ</h2>
+    <h2>5分間チャレンジ</h2>
     <p class="story">
-      7分間で何体のモンスターを倒せるかな？<br>
+      5分間で何体のモンスターを倒せるかな？<br>
       2体討伐するごとに難易度が上昇！
     </p>
     <p>
@@ -775,6 +775,15 @@ const NA=6e23;
 const VM=22.4;
 const MAX_HP=60;
 
+// 制限時間：5分
+
+const TIME_LIMIT=5*60*1000;
+
+// 5分間チャレンジ専用の記録
+
+const SAVE_KEY='molQuest34_5min';
+const OLD_SAVE_KEY='molQuest31';
+
 const atoms=[
   ['H','1.0'],
   ['C','12'],
@@ -797,10 +806,6 @@ $('atoms').innerHTML=atoms.map(([a,v])=>
 
 // ========================================
 // 物質データ
-//
-// 名前・化学式・モル質量の計算式
-// 気体か・特定の原子数・元素名
-// 種類（分子・原子・イオン結晶）
 // ========================================
 
 const substances=[
@@ -841,8 +846,7 @@ const substances=[
 ];
 
 // ========================================
-// イオンデータ Ver.3.3
-// イオン名・イオン式・組成比
+// イオンデータ
 // ========================================
 
 const ionData={
@@ -1039,14 +1043,7 @@ function formatNumber(n){
 }
 
 // ========================================
-// 問題生成 Ver.3.3
-//
-// m：質量
-// n：物質量
-// p：分子数または金属原子数
-// v：気体の体積
-// a：分子中の特定の原子数
-// i：特定のイオン数
+// 問題生成
 // ========================================
 
 function generate(){
@@ -1072,8 +1069,6 @@ function generate(){
   const pair=pick(pairs);
 
   const [from,to]=pair;
-
-  // 問題の種類に応じて物質を絞る
 
   const pool=substances.filter(s=>{
 
@@ -1117,8 +1112,6 @@ function generate(){
     atomName,
     particle
   ]=pick(pool);
-
-  // イオン数の問題では陽イオンまたは陰イオンを選択
 
   const ion=pair.includes('i')?
     pick(ionData[formula]):
@@ -1168,8 +1161,6 @@ function generate(){
     {value:vals[from],sign:1}
   ];
 
-  // 物質量への換算に必要な因数
-
   const conversion={
 
     m:[
@@ -1197,8 +1188,6 @@ function generate(){
     n:[]
   };
 
-  // 与えられた量から物質量へ
-
   for(const [expr,value] of conversion[from]){
 
     if(value===1&&expr==='1'){
@@ -1212,8 +1201,6 @@ function generate(){
       sign:-1
     });
   }
-
-  // 物質量から求める量へ
 
   for(const [expr,value] of conversion[to]){
 
@@ -1248,29 +1235,23 @@ function generate(){
   let subject='';
 
   if(from==='m'){
-
     subject=`${substance} ${amount} g`;
   }
 
   if(from==='n'){
-
     subject=`${substance} ${amount} mol`;
   }
 
   if(from==='p'){
-
     subject=`${particleName} ${amount} 個`;
   }
 
   if(from==='v'){
-
     subject=
       `標準状態における${substance} ${amount} L`;
   }
 
   let text='';
-
-  // イオン数が与えられる問題
 
   if(from==='i'){
 
@@ -1282,8 +1263,6 @@ function generate(){
       `${amount} 個である。`+
       `${name}の${target}は何 ${units[to]} か。`;
 
-  // 特定の原子数が与えられる問題
-
   }else if(from==='a'){
 
     const target=
@@ -1294,40 +1273,28 @@ function generate(){
       `${amount} 個である。`+
       `${name}の${target}は何 ${units[to]} か。`;
 
-  // 質量を求める
-
   }else if(to==='m'){
 
     text=`${subject} の質量は何 g か。`;
 
-  // 物質量を求める
-
   }else if(to==='n'){
 
     text=`${subject} の物質量は何 mol か。`;
-
-  // 気体の体積を求める
 
   }else if(to==='v'){
 
     text=
       `${subject} の標準状態における体積は何 L か。`;
 
-  // 分子数・金属原子数を求める
-
   }else if(to==='p'){
 
     text=
       `${subject} に含まれる${particleName}は何個か。`;
 
-  // 特定の原子数を求める
-
   }else if(to==='a'){
 
     text=
       `${subject} に含まれる${atomName}原子は何個か。`;
-
-  // イオン数を求める
 
   }else if(to==='i'){
 
@@ -1381,18 +1348,15 @@ function generate(){
     toMolHints[from]+' '+fromMolHints[to];
 
   if(pair.includes('m')){
-
     hint+=' モル質量は原子量から求めよう。';
   }
 
   if(pair.includes('a')){
-
     hint+=
       ` 1分子中の${atomName}原子は${atomCount}個。`;
   }
 
   if(pair.includes('i')){
-
     hint+=
       ` ${name} 1 mol に対して、`+
       `${ionName}は${ionCount} mol 含まれるよ。`;
@@ -1405,20 +1369,17 @@ function generate(){
   let explain='';
 
   if(pair.includes('m')){
-
     explain+=
       `モル質量：${pretty(molarExpr)} = ${M} g/mol。 `;
   }
 
   if(pair.includes('a')){
-
     explain+=
       `1分子中に${atomName}原子が`+
       `${atomCount}個含まれる。 `;
   }
 
   if(pair.includes('i')){
-
     explain+=
       `化学式 ${formula} より、`+
       `${name}と${ionName}の物質量の比は`+
@@ -1513,12 +1474,13 @@ function startBattle(l=1,t=false){
 
   loadQuestion();
 
-  deadline=Date.now()+420000;
+  // 5分間チャレンジ開始
+
+  deadline=Date.now()+TIME_LIMIT;
 
   tick();
 
   if(timed){
-
     timer=setInterval(tick,200);
   }
 }
@@ -1566,7 +1528,6 @@ function tick(){
     sec<=30?'clock danger':'clock';
 
   if(sec===0){
-
     finish('time');
   }
 }
@@ -1613,9 +1574,7 @@ function loadQuestion(){
   let newQuestion;
 
   do{
-
     newQuestion=generate();
-
   }while(newQuestion.text===lastText);
 
   q=newQuestion;
@@ -1741,7 +1700,6 @@ function updateDisplay(){
     }
 
     if(i===cursor&&!locked){
-
       html+='<span class="caret"></span>';
     }
 
@@ -1763,7 +1721,6 @@ function updateDisplay(){
   }
 
   if(inExp){
-
     html+='</sup>';
   }
 
@@ -1805,7 +1762,6 @@ function parseMath(s){
       const v=Number(m[0]);
 
       if(!Number.isFinite(v)){
-
         throw Error('invalid number');
       }
 
@@ -1854,7 +1810,6 @@ function parseMath(s){
       const a=addition();
 
       if(peek()!==')'){
-
         throw Error('parenthesis');
       }
 
@@ -1919,21 +1874,18 @@ function parseMath(s){
   }
 
   if(!tokens.length){
-
     throw Error('empty');
   }
 
   const tree=addition();
 
   if(i!==tokens.length){
-
     throw Error('extra');
   }
 
   const value=calcNode(tree);
 
   if(!Number.isFinite(value)){
-
     throw Error('not finite');
   }
 
@@ -1943,12 +1895,10 @@ function parseMath(s){
 function calcNode(node){
 
   if(node.op==='num'){
-
     return node.value;
   }
 
   if(node.op==='neg'){
-
     return -calcNode(node.arg);
   }
 
@@ -1991,7 +1941,6 @@ function factorPatterns(node,sign=1){
   const value=calcNode(node);
 
   if(!Number.isFinite(value)){
-
     return [];
   }
 
@@ -2021,7 +1970,6 @@ function factorPatterns(node,sign=1){
         patterns.push([...a,...b]);
 
         if(patterns.length>=256){
-
           return patterns;
         }
       }
@@ -2047,7 +1995,6 @@ function compareFactors(actual,expected){
     if(index===-1){
 
       if(approx(target.value,1)){
-
         continue;
       }
 
@@ -2067,14 +2014,10 @@ function formulaOK(question,tree){
   // 数値だけの入力は不可
 
   if(tree.op==='num'){
-
     return false;
   }
 
-  // 換算の計算を含むこと
-
   if(tree.op!=='*'&&tree.op!=='/'){
-
     return false;
   }
 
@@ -2084,7 +2027,6 @@ function formulaOK(question,tree){
     calcNode(tree),
     question.answer
   )){
-
     return false;
   }
 
@@ -2095,12 +2037,10 @@ function formulaOK(question,tree){
   for(const pattern of patterns){
 
     if(pattern.length<2){
-
       continue;
     }
 
     if(compareFactors(pattern,expected)){
-
       return true;
     }
   }
@@ -2154,8 +2094,6 @@ function checkAnswer(){
 
   attempts++;
 
-  // 計算結果が違う場合
-
   if(!approx(parsed.value,q.answer)){
 
     streak=0;
@@ -2169,8 +2107,6 @@ function checkAnswer(){
 
     return;
   }
-
-  // 答えは合っているが計算式が不十分な場合
 
   if(!formulaOK(q,parsed.tree)){
 
@@ -2302,7 +2238,6 @@ function toggleHelp(mode){
   if(!active)return;
 
   if(!locked&&mode!=='hint'){
-
     return;
   }
 
@@ -2356,42 +2291,54 @@ function toggleHelp(mode){
 
 // ========================================
 // 記録保存
+// 旧バージョンから図鑑のみ引き継ぐ
 // ========================================
 
-function saved(){
-
-  const empty={
-    best:0,
-    kills:0,
-    collection:[]
-  };
+function readStorage(key){
 
   try{
 
-    const data=JSON.parse(
-      localStorage.getItem('molQuest31')
-    );
-
-    if(!data)return empty;
-
-    return {
-
-      best:Number(data.best)||0,
-
-      kills:Number(data.kills)||0,
-
-      collection:
-        Array.isArray(data.collection)?
-        data.collection.filter(
-          id=>Number.isInteger(id)&&
-          id>=0&&id<monsters.length
-        ):[]
-    };
+    return JSON.parse(
+      localStorage.getItem(key)
+    )||{};
 
   }catch{
 
-    return empty;
+    return {};
   }
+}
+
+function validCollection(data){
+
+  if(!Array.isArray(data)){
+    return [];
+  }
+
+  return data.filter(
+    id=>Number.isInteger(id)&&
+    id>=0&&id<monsters.length
+  );
+}
+
+function saved(){
+
+  const data=readStorage(SAVE_KEY);
+
+  const old=readStorage(OLD_SAVE_KEY);
+
+  return {
+
+    best:Number(data.best)||0,
+
+    kills:Number(data.kills)||0,
+
+    collection:[
+      ...new Set([
+        ...validCollection(data.collection),
+        ...validCollection(old.collection)
+      ])
+    ]
+  };
 }
 
 function persist(completed=false){
@@ -2415,7 +2362,7 @@ function persist(completed=false){
   try{
 
     localStorage.setItem(
-      'molQuest31',
+      SAVE_KEY,
       JSON.stringify(r)
     );
 
@@ -2433,6 +2380,8 @@ function finish(reason){
   active=false;
 
   clearInterval(timer);
+
+  timer=null;
 
   const old=saved();
 
@@ -2456,6 +2405,7 @@ function finish(reason){
     Math.round(correct/attempts*100):0;
 
   const rows=[
+    ['モード',timed?'5分間チャレンジ':'通常クエスト'],
     ['討伐数',kills+'体'],
     ['正解数',correct+'問'],
     ['到達レベル','Lv.'+level],
@@ -2527,7 +2477,7 @@ function showRecords(collection){
   }else{
 
     $('recordTitle').textContent=
-      '🏆 7分間チャレンジ 自己ベスト';
+      '🏆 5分間チャレンジ 自己ベスト';
 
     $('recordBody').innerHTML=`
       <div class="result-row">
