@@ -1,4 +1,1058 @@
 
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MOL QUEST Ver.3.1</title>
+
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:radial-gradient(ellipse at 50% 10%,#344b83,#172345 45%,#090f24);
+  color:#f4f5ff;
+  font-family:system-ui,-apple-system,sans-serif;
+  padding:14px 10px 36px;
+}
+.game{max-width:660px;margin:auto}
+.screen{display:none}
+.screen.active{display:block}
+.panel{
+  background:#101936;
+  border:2px solid #6477ad;
+  border-radius:17px;
+  padding:16px;
+  margin:12px 0;
+  box-shadow:0 7px 0 #070e23;
+}
+.center{text-align:center}
+.symbol{font-size:64px}
+h1{
+  font-size:clamp(38px,10vw,60px);
+  color:#ffe08b;
+  letter-spacing:3px;
+  text-shadow:0 0 14px #c18e35;
+  margin:8px 0;
+}
+h2{
+  font-size:19px;
+  color:#ffdb63;
+  margin:0 0 13px;
+}
+p{line-height:1.7}
+.story{line-height:2;color:#d7e0ff}
+.btn{
+  border:2px solid #7185b8;
+  background:#26385e;
+  color:#fff;
+  border-radius:11px;
+  padding:13px 14px;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+.btn:active,.key:active{
+  filter:brightness(1.35);
+  transform:translateY(1px);
+}
+.btn.gold{
+  background:#ffcf4c;
+  color:#261d25;
+  border-color:#ffe79a;
+  box-shadow:0 4px 0 #8c651f;
+}
+.btn.wide{
+  display:block;
+  width:min(100%,360px);
+  margin:14px auto;
+}
+.btn:disabled,.key:disabled{
+  opacity:.45;
+  cursor:default;
+}
+.muted{
+  color:#aebfe7;
+  font-size:13px;
+}
+.hp-track{
+  height:16px;
+  background:#26314d;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid #8da0c6;
+}
+.hp-fill{
+  height:100%;
+  width:100%;
+  background:#4ade80;
+  transition:width .4s;
+}
+.question{
+  font-size:19px;
+  line-height:1.8;
+}
+.tag{
+  display:inline-block;
+  background:#54420e;
+  color:#ffdc68;
+  padding:4px 9px;
+  border-radius:6px;
+  font-size:13px;
+  font-weight:bold;
+}
+.calc{
+  background:#18234d;
+  border:2px solid #5267a7;
+  border-radius:18px;
+  padding:12px;
+  margin:14px 0;
+}
+.display{
+  min-height:112px;
+  background:#080f29;
+  border:2px solid #485c9d;
+  border-radius:13px;
+  padding:12px 13px;
+  text-align:right;
+  overflow-wrap:anywhere;
+}
+.display-label{
+  color:#98acd7;
+  font-size:12px;
+  text-align:left;
+}
+.expression{
+  font-size:clamp(20px,5.5vw,29px);
+  min-height:40px;
+  line-height:1.9;
+  word-break:break-all;
+}
+.expression sup{
+  font-size:.65em;
+  line-height:0;
+  vertical-align:super;
+}
+.caret{
+  display:inline-block;
+  width:2px;
+  height:1.2em;
+  vertical-align:-.25em;
+  background:#ffdb58;
+  animation:blink 1s step-end infinite;
+}
+@keyframes blink{
+  50%{opacity:0}
+}
+.live{
+  font-size:18px;
+  font-weight:bold;
+  color:#a4f2c5;
+  min-height:28px;
+}
+.keys{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:7px;
+  margin-top:10px;
+}
+.key{
+  min-height:52px;
+  border:1px solid #6476b5;
+  border-radius:10px;
+  background:#2a376d;
+  color:white;
+  font-size:20px;
+  font-weight:700;
+  touch-action:manipulation;
+  cursor:pointer;
+}
+.key.special{
+  background:#344b93;
+  color:#ffdc72;
+  font-size:17px;
+}
+.key.tool{background:#3b4275}
+.key.clear{color:#ff9e9e}
+.key.attack{
+  grid-column:span 4;
+  background:#ffcf4c;
+  color:#201c2b;
+  border-color:#ffe594;
+  font-size:20px;
+  min-height:57px;
+}
+.action-row{
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+.action-row .btn{
+  flex:1;
+  min-width:95px;
+}
+.feedback{
+  border-radius:11px;
+  padding:12px;
+  line-height:1.8;
+  margin-top:12px;
+  display:none;
+}
+.feedback.show{display:block}
+.feedback.ok{
+  background:#103d2e;
+  border:1px solid #42c88b;
+}
+.feedback.warn{
+  background:#4b3918;
+  border:1px solid #edbd4e;
+}
+.feedback.bad{
+  background:#4d2234;
+  border:1px solid #eb7891;
+}
+.help{
+  background:#0b142d;
+  border:1px solid #7185b8;
+  border-radius:11px;
+  padding:13px;
+  margin-top:10px;
+  display:none;
+  line-height:1.8;
+}
+.help.show{display:block}
+.help strong{color:#ffe07c}
+.constants,.map{
+  background:#080d20;
+  border:3px solid #d7dceb;
+  border-radius:17px;
+  padding:17px;
+  margin-top:16px;
+}
+.constant-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  margin:11px 0;
+  flex-wrap:wrap;
+}
+.constant-row strong{white-space:nowrap}
+.atoms{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:6px;
+}
+.atom{
+  border:1px solid #56669d;
+  border-radius:7px;
+  padding:8px 4px;
+  display:flex;
+  justify-content:space-between;
+  gap:4px;
+  font-size:13px;
+}
+.atom b{font-size:15px}
+.atom span{color:#aeb9df}
+.map svg{
+  display:block;
+  width:100%;
+  height:auto;
+}
+.map-note{
+  font-size:13px;
+  color:#b8c7e8;
+  line-height:1.7;
+}
+.next{
+  display:none;
+  margin-top:10px;
+}
+.next.show{display:block}
+.clock{
+  font-size:30px;
+  font-weight:bold;
+  color:#ffe08b;
+  font-variant-numeric:tabular-nums;
+}
+.clock.danger{color:#ff8888}
+.status-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin:12px 0;
+}
+.status-box{
+  background:#080f29;
+  border:1px solid #5267a7;
+  border-radius:9px;
+  padding:10px 3px;
+  font-size:13px;
+}
+.status-box b{
+  display:block;
+  color:#ffe08b;
+  font-size:22px;
+}
+.collection{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+}
+.monster-card{
+  background:#18234d;
+  border:1px solid #6477ad;
+  border-radius:12px;
+  padding:15px 5px;
+  font-size:12px;
+}
+.monster-card .emoji{
+  font-size:40px;
+  margin-bottom:7px;
+}
+.monster-card.unknown{opacity:.45}
+.result-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  border-bottom:1px solid #34466f;
+  padding:12px 4px;
+}
+.result-row b{color:#ffe08b}
+.level-desc{
+  display:block;
+  font-size:12px;
+  font-weight:normal;
+  margin-top:6px;
+  color:#c6d3f4;
+}
+.hit{
+  animation:hit .35s ease;
+}
+@keyframes hit{
+  25%{transform:translateX(-8px);opacity:.5}
+  50%{transform:translateX(8px)}
+  75%{transform:translateX(-4px)}
+}
+@media(max-width:380px){
+  .atoms{
+    grid-template-columns:repeat(4,minmax(0,1fr))
+  }
+  .key{min-height:48px}
+  .panel{padding:12px}
+}
+</style>
+</head>
+
+<body>
+<main class="game">
+
+<!-- タイトル画面 -->
+
+<section id="title" class="screen active">
+  <div class="panel center" style="padding:48px 18px">
+    <div class="symbol">⚗️✨</div>
+    <h1>MOL QUEST</h1>
+    <div class="muted">
+      THE ADVENTURE OF CHEMISTRY
+    </div>
+
+    <p class="story">
+      ここは、物質の不思議が眠る世界。<br>
+      モルの力を手に入れ、<br>
+      化学の冒険に出発しよう！
+    </p>
+
+    <button class="btn gold wide"
+      onclick="showScreen('menu')">
+      ▶ 冒険をはじめる
+    </button>
+
+    <p class="muted">VERSION 3.1</p>
+  </div>
+</section>
+
+<!-- メニュー画面 -->
+
+<section id="menu" class="screen">
+  <div class="panel center">
+
+    <div class="symbol">🧙‍♂️</div>
+    <h1 style="font-size:35px">冒険の準備</h1>
+    <p>どの冒険に挑戦する？</p>
+
+    <button class="btn gold wide"
+      onclick="showScreen('levels')">
+      ⚔️ モルの修行
+    </button>
+
+    <button class="btn gold wide"
+      onclick="showScreen('challenge')">
+      ⏱ 7分間チャレンジ
+    </button>
+
+    <button class="btn wide"
+      onclick="showRecords(true)">
+      📖 モンスター図鑑
+    </button>
+
+    <button class="btn wide"
+      onclick="showRecords(false)">
+      🏆 冒険の記録
+    </button>
+
+    <button class="btn wide"
+      onclick="showScreen('title')">
+      タイトルに戻る
+    </button>
+
+  </div>
+</section>
+
+<!-- レベル選択 -->
+
+<section id="levels" class="screen">
+  <div class="panel center">
+    <h2>冒険するステージを選択</h2>
+
+    <p class="muted">
+      モンスターを3体討伐するとクリア！
+    </p>
+
+    <div id="levelButtons"></div>
+
+    <button class="btn wide"
+      onclick="showScreen('menu')">
+      戻る
+    </button>
+  </div>
+</section>
+
+<!-- チャレンジ説明 -->
+
+<section id="challenge" class="screen">
+  <div class="panel center">
+
+    <div class="symbol">⏳</div>
+    <h1 style="font-size:32px">
+      TIME ATTACK
+    </h1>
+
+    <h2>7分間チャレンジ</h2>
+
+    <p class="story">
+      7分間で何体のモンスターを倒せるかな？<br>
+      2体討伐するごとに難易度が上昇！
+    </p>
+
+    <p>
+      通常攻撃：20ダメージ<br>
+      ヒント使用：10ダメージ<br>
+      モンスターのHP：60
+    </p>
+
+    <button class="btn gold wide"
+      onclick="startBattle(1,true)">
+      ▶ チャレンジ開始！
+    </button>
+
+    <button class="btn wide"
+      onclick="showScreen('menu')">
+      戻る
+    </button>
+
+  </div>
+</section>
+
+<!-- 記録・図鑑 -->
+
+<section id="records" class="screen">
+  <div class="panel center">
+    <h2 id="recordTitle"></h2>
+    <div id="recordBody"></div>
+
+    <button class="btn wide"
+      onclick="showScreen('menu')">
+      戻る
+    </button>
+  </div>
+</section>
+
+<!-- バトル画面 -->
+
+<section id="battle" class="screen">
+
+  <div class="panel center">
+
+    <div id="clock" class="clock"></div>
+    <p id="stageName" class="muted"></p>
+
+    <div id="monsterIcon" class="symbol">👾</div>
+
+    <h2 id="monsterName"></h2>
+    <strong id="monsterHP">HP：60 / 60</strong>
+
+    <div class="hp-track" style="margin-top:10px">
+      <div id="hpBar" class="hp-fill"></div>
+    </div>
+
+    <div class="status-grid">
+
+      <div class="status-box">
+        LEVEL
+        <b id="levelDisplay">1</b>
+      </div>
+
+      <div class="status-box">
+        正解数
+        <b id="correctDisplay">0</b>
+      </div>
+
+      <div class="status-box">
+        討伐数
+        <b id="killDisplay">0</b>
+      </div>
+
+    </div>
+
+    <div id="powerDisplay" class="muted">
+      攻撃力：20
+    </div>
+
+  </div>
+
+  <!-- 問題 -->
+
+  <div class="panel">
+
+    <div id="progress" class="muted"></div>
+
+    <span class="tag" id="category"></span>
+
+    <p class="question" id="question"></p>
+
+    <div class="muted" id="unit"></div>
+
+  </div>
+
+  <!-- 電卓 -->
+
+  <div class="calc">
+
+    <div class="display">
+
+      <div class="display-label">
+        計算式（◀ ▶ でカーソル移動）
+      </div>
+
+      <div id="expression"
+        class="expression"></div>
+
+      <div id="live" class="live">= —</div>
+
+    </div>
+
+    <div class="keys">
+
+      <button class="key clear"
+        onclick="clearInput()">C</button>
+
+      <button class="key tool"
+        onclick="backspace()">⌫</button>
+
+      <button class="key tool"
+        onclick="moveCursor(-1)">◀</button>
+
+      <button class="key tool"
+        onclick="moveCursor(1)">▶</button>
+
+      <button class="key"
+        onclick="insert('7')">7</button>
+
+      <button class="key"
+        onclick="insert('8')">8</button>
+
+      <button class="key"
+        onclick="insert('9')">9</button>
+
+      <button class="key tool"
+        onclick="insert('/')">÷</button>
+
+      <button class="key"
+        onclick="insert('4')">4</button>
+
+      <button class="key"
+        onclick="insert('5')">5</button>
+
+      <button class="key"
+        onclick="insert('6')">6</button>
+
+      <button class="key tool"
+        onclick="insert('*')">×</button>
+
+      <button class="key"
+        onclick="insert('1')">1</button>
+
+      <button class="key"
+        onclick="insert('2')">2</button>
+
+      <button class="key"
+        onclick="insert('3')">3</button>
+
+      <button class="key tool"
+        onclick="insert('-')">−</button>
+
+      <button class="key"
+        onclick="insert('0')">0</button>
+
+      <button class="key"
+        onclick="insert('.')">.</button>
+
+      <button class="key special"
+        onclick="insert('E')">×10ˣ</button>
+
+      <button class="key tool"
+        onclick="insert('+')">+</button>
+
+      <button class="key tool"
+        onclick="insert('(')">(</button>
+
+      <button class="key tool"
+        onclick="insert(')')">)</button>
+
+      <button class="key special"
+        onclick="insert('6.0E23')">Nₐ</button>
+
+      <button class="key special"
+        onclick="insert('22.4')">22.4</button>
+
+      <button class="key attack"
+        id="attack"
+        onclick="checkAnswer()">
+        ⚔️ 解答して攻撃！
+      </button>
+
+    </div>
+
+    <div class="action-row">
+
+      <button class="btn"
+        id="hintBtn"
+        onclick="toggleHelp('hint')">
+        💡 ヒント
+      </button>
+
+      <button class="btn"
+        id="explainBtn"
+        onclick="toggleHelp('explain')">
+        📖 解説
+      </button>
+
+      <button class="btn"
+        id="modelBtn"
+        onclick="toggleHelp('model')">
+        📝 模範解答
+      </button>
+
+    </div>
+
+    <div id="help" class="help"></div>
+
+    <div id="feedback"
+      class="feedback"
+      aria-live="polite"></div>
+
+    <button id="next"
+      class="btn gold wide next"
+      onclick="nextQuestion()">
+      次の問題へ ▶
+    </button>
+
+  </div>
+
+  <!-- 定数・原子量 -->
+
+  <div class="constants">
+
+    <h2>つかう ていすう</h2>
+
+    <div class="constant-row">
+      <span>アボガドロ定数 Nₐ</span>
+      <strong>6.0×10<sup>23</sup> /mol</strong>
+    </div>
+
+    <div class="constant-row">
+      <span>気体のモル体積（標準状態）</span>
+      <strong>22.4 L/mol</strong>
+    </div>
+
+    <h2 style="margin-top:24px">原子量</h2>
+
+    <div class="atoms" id="atoms"></div>
+
+  </div>
+
+  <!-- まほうのちず -->
+
+  <div class="map">
+
+    <h2>まほうの ちず</h2>
+
+    <svg viewBox="0 0 340 270"
+      role="img"
+      aria-label="物質量を中心とした換算図">
+
+      <g fill="#292c40"
+        stroke="#f4d05d"
+        stroke-width="2">
+
+        <rect x="2" y="56"
+          width="85" height="85" rx="9"/>
+
+        <rect x="127" y="56"
+          width="86" height="85" rx="9"/>
+
+        <rect x="253" y="56"
+          width="85" height="85" rx="9"/>
+
+        <rect x="121" y="183"
+          width="98" height="82" rx="9"/>
+
+      </g>
+
+      <g text-anchor="middle"
+        fill="#fff" font-size="14">
+
+        <text x="44" y="80">質量</text>
+        <text x="170" y="80">物質量</text>
+        <text x="295" y="80">粒子数</text>
+        <text x="170" y="207">気体の体積</text>
+
+      </g>
+
+      <g text-anchor="middle"
+        fill="#fff"
+        font-size="25"
+        font-weight="bold">
+
+        <text x="44" y="112">m</text>
+        <text x="170" y="112">n</text>
+        <text x="295" y="112">N</text>
+        <text x="170" y="237">V</text>
+
+      </g>
+
+      <g text-anchor="middle"
+        fill="#a9b6df"
+        font-size="12">
+
+        <text x="44" y="131">g</text>
+        <text x="170" y="131">mol</text>
+        <text x="295" y="131">個</text>
+        <text x="170" y="256">L</text>
+
+      </g>
+
+      <g text-anchor="middle"
+        fill="#ffda62"
+        font-size="11"
+        font-weight="bold">
+
+        <text x="107" y="80">÷M →</text>
+        <text x="107" y="116">← ×M</text>
+
+        <text x="233" y="80">×Nₐ →</text>
+        <text x="233" y="116">← ÷Nₐ</text>
+
+        <text x="230" y="168">↓ ×22.4</text>
+        <text x="105" y="168">↑ ÷22.4</text>
+
+      </g>
+
+      <path d="M170 142 V181"
+        stroke="#ffda62"
+        stroke-width="2"
+        stroke-dasharray="5 4"/>
+
+      <text x="170" y="25"
+        fill="#c9d3f1"
+        text-anchor="middle"
+        font-size="13">
+
+        まず物質量 n に直して考えよう
+
+      </text>
+
+    </svg>
+
+    <p class="map-note">
+      M はモル質量（g/mol）。<br>
+      気体の体積は標準状態で扱います。
+    </p>
+
+  </div>
+
+  <button class="btn wide"
+    onclick="quitBattle()">
+    冒険を終了する
+  </button>
+
+</section>
+
+<!-- 結果画面 -->
+
+<section id="victory" class="screen">
+
+  <div class="panel center">
+
+    <div class="symbol">🏆✨</div>
+    <h1 id="endTitle">RESULT</h1>
+
+    <p id="endMessage" class="story"></p>
+
+    <div id="summary"></div>
+
+    <h2 style="margin-top:24px">
+      討伐したモンスター
+    </h2>
+
+    <div id="defeatedList"
+      class="collection"></div>
+
+    <button class="btn gold wide"
+      onclick="startBattle(initialLevel,timed)">
+      ▶ もう一度挑戦
+    </button>
+
+    <button class="btn wide"
+      onclick="showScreen('menu')">
+      メニューへ戻る
+    </button>
+
+  </div>
+
+</section>
+
+</main>
+
+<script>
+'use strict';
+
+// ========================================
+// 基本データ
+// ========================================
+
+const $=id=>document.getElementById(id);
+
+const NA=6e23;
+const VM=22.4;
+const MAX_HP=60;
+
+const atoms=[
+  ['H','1.0'],
+  ['C','12'],
+  ['N','14'],
+  ['O','16'],
+  ['Na','23'],
+  ['Al','27'],
+  ['S','32'],
+  ['Cl','35.5'],
+  ['Ca','40'],
+  ['Fe','56'],
+  ['Cu','64']
+];
+
+$('atoms').innerHTML=atoms.map(([a,v])=>
+  `<div class="atom">
+    <b>${a}</b><span>${v}</span>
+  </div>`
+).join('');
+
+// ========================================
+// 物質データ
+// 名前・化学式・モル質量の式
+// 気体か・原子数・元素名・粒子の種類
+// ========================================
+
+const substances=[
+  ['水','H₂O','1*2+16',false,2,'水素','分子'],
+  ['二酸化炭素','CO₂','12+16*2',true,2,'酸素','分子'],
+  ['メタン','CH₄','12+1*4',true,4,'水素','分子'],
+  ['アンモニア','NH₃','14+1*3',true,3,'水素','分子'],
+  ['酸素','O₂','16*2',true,2,'酸素','分子'],
+  ['窒素','N₂','14*2',true,2,'窒素','分子'],
+  ['水素','H₂','1*2',true,2,'水素','分子'],
+  ['一酸化炭素','CO','12+16',true,1,'酸素','分子'],
+  ['エタン','C₂H₆','12*2+1*6',true,6,'水素','分子'],
+  ['プロパン','C₃H₈','12*3+1*8',true,8,'水素','分子'],
+  ['二酸化硫黄','SO₂','32+16*2',true,2,'酸素','分子'],
+  ['塩化ナトリウム','NaCl','23+35.5',false,0,'','式単位'],
+  ['水酸化ナトリウム','NaOH','23+16+1',false,0,'','式単位'],
+  ['炭酸カルシウム','CaCO₃','40+12+16*3',false,0,'','式単位'],
+  ['硫酸アルミニウム','Al₂(SO₄)₃','27*2+(32+16*4)*3',false,0,'','式単位'],
+  ['水酸化カルシウム','Ca(OH)₂','40+(16+1)*2',false,0,'','式単位'],
+  ['炭酸ナトリウム','Na₂CO₃','23*2+12+16*3',false,0,'','式単位'],
+  ['エタノール','C₂H₅OH','12*2+1*6+16',false,6,'水素','分子'],
+  ['グルコース','C₆H₁₂O₆','12*6+1*12+16*6',false,12,'水素','分子'],
+  ['塩素','Cl₂','35.5*2',true,2,'塩素','分子'],
+  ['塩化水素','HCl','1+35.5',true,1,'水素','分子'],
+  ['硫酸','H₂SO₄','1*2+32+16*4',false,4,'酸素','分子'],
+  ['硝酸','HNO₃','1+14+16*3',false,3,'酸素','分子'],
+  ['酸化アルミニウム','Al₂O₃','27*2+16*3',false,0,'','式単位'],
+  ['酸化鉄(III)','Fe₂O₃','56*2+16*3',false,0,'','式単位'],
+  ['硫酸銅','CuSO₄','64+32+16*4',false,0,'','式単位'],
+  ['塩化カルシウム','CaCl₂','40+35.5*2',false,0,'','式単位'],
+  ['鉄','Fe','56',false,0,'','原子'],
+  ['銅','Cu','64',false,0,'','原子'],
+  ['アルミニウム','Al','27',false,0,'','原子']
+];
+
+// ========================================
+// モンスター
+// ========================================
+
+const monsters=[
+  ['🟢','モルスライム'],
+  ['🍄','モルキノコ'],
+  ['🦇','モルバット'],
+  ['👻','モルゴースト'],
+  ['🤖','モルゴーレム'],
+  ['🦂','モルスコーピオン'],
+  ['🐺','モルウルフ'],
+  ['🐲','モルドラゴン'],
+  ['👑','モルキング']
+];
+
+const stages=[
+  {
+    name:'はじまりの草原',
+    icon:'🌱',
+    desc:'質量 ⇄ 物質量',
+    enemies:[0,1]
+  },
+  {
+    name:'モルの森',
+    icon:'🌳',
+    desc:'粒子数・気体の体積 ⇄ 物質量',
+    enemies:[2,3]
+  },
+  {
+    name:'分子の洞窟',
+    icon:'💎',
+    desc:'物質量を経由する2段階の計算',
+    enemies:[4,5,6]
+  },
+  {
+    name:'化学竜の城',
+    icon:'🏰',
+    desc:'原子数・複雑な化学式・応用問題',
+    enemies:[7,8]
+  }
+];
+
+$('levelButtons').innerHTML=stages.map((s,i)=>
+  `<button class="btn wide"
+    onclick="startBattle(${i+1},false)">
+    ${s.icon} Lv.${i+1} ${s.name}
+    <span class="level-desc">${s.desc}</span>
+  </button>`
+).join('');
+
+// ========================================
+// ゲーム状態
+// ========================================
+
+let q=null;
+let expression='';
+let cursor=0;
+let locked=false;
+let helpMode='';
+let hintUsed=false;
+
+let level=1;
+let initialLevel=1;
+let timed=false;
+let active=false;
+
+let deadline=0;
+let timer=null;
+
+let monsterHP=MAX_HP;
+let monsterId=0;
+
+let correct=0;
+let kills=0;
+let attempts=0;
+let streak=0;
+let bestStreak=0;
+let hints=0;
+
+let lastText='';
+let defeated=[];
+
+const pick=a=>
+  a[Math.floor(Math.random()*a.length)];
+
+const clean=n=>
+  Number(n.toPrecision(12));
+
+// ========================================
+// 数値の表示
+// ========================================
+
+function sci(n){
+
+  n=clean(n);
+
+  if(Math.abs(n)>=1e9||
+    (n!==0&&Math.abs(n)<.001)){
+
+    return n.toExponential(8)
+      .replace(/\.?0+e/,'e')
+      .replace('e+','E')
+      .replace('e-','E-');
+  }
+
+  return String(n);
+}
+
+function pretty(s){
+
+  const supers={
+    '-':'⁻',
+    '+':'⁺',
+    '0':'⁰',
+    '1':'¹',
+    '2':'²',
+    '3':'³',
+    '4':'⁴',
+    '5':'⁵',
+    '6':'⁶',
+    '7':'⁷',
+    '8':'⁸',
+    '9':'⁹'
+  };
+
+  return String(s)
+    .replace(/E([+-]?\d+)/g,(_,n)=>
+      '×10'+n.split('')
+        .map(c=>supers[c]).join('')
+    )
+    .replace(/\*/g,'×')
+    .replace(/\//g,'÷')
+    .replace(/-/g,'−');
+}
+
+function formatNumber(n){
+  return pretty(sci(n));
+}
+
+// ========================================
+// 問題の自動生成
+// ========================================
+
 function generate(){
 
   const pairs=
@@ -15,8 +1069,11 @@ function generate(){
   const [from,to]=pair;
 
   const pool=substances.filter(s=>
+
     (!pair.includes('v')||s[3])&&
+
     (!pair.includes('a')||s[4]>0)&&
+
     (level!==1||!s[2].includes('('))
   );
 
@@ -27,13 +1084,8 @@ function generate(){
     gas,
     atomCount,
     atomName,
-    particleType
+    particle
   ]=pick(pool);
-
-  const particle=
-    particleType==='式単位'?
-    '組成式で表される粒子':
-    particleType;
 
   const M=parseMath(molarExpr).value;
 
@@ -61,9 +1113,9 @@ function generate(){
   const labels={
     m:'質量',
     n:'物質量',
-    p:'粒子数',
+    p:particle+'の数',
     v:'気体の体積',
-    a:'原子数'
+    a:atomName+'原子の数'
   };
 
   const start=sci(vals[from]);
@@ -81,6 +1133,8 @@ function generate(){
   };
 
   let model=start;
+
+  // 判定に必要な数値と演算方向
 
   const expected=[
     {value:vals[from],sign:1}
@@ -120,61 +1174,25 @@ function generate(){
     });
   }
 
-  // ==================================
-  // 問題文の生成
-  // ==================================
-
-  const substance=`${name} ${formula}`;
-  const amount=pretty(start);
-
-  let subject='';
-
-  if(from==='m'){
-    subject=`${substance} ${amount} g`;
-  }
-
-  if(from==='n'){
-    subject=`${substance} ${amount} mol`;
-  }
+  let given;
 
   if(from==='p'){
-    subject=
-      `${substance} の${particle} ${amount} 個`;
+
+    given=
+      `${name} ${formula} の${particle}が `+
+      `${pretty(start)} 個ある。`;
+
+  }else{
+
+    given=
+      `${name} ${formula} が `+
+      `${pretty(start)} ${units[from]} ある。`;
   }
 
-  if(from==='v'){
-    subject=
-      `標準状態における ${substance} ${amount} L`;
-  }
-
-  let text='';
-
-  if(to==='m'){
-    text=`${subject} の質量は何 g か。`;
-  }
-
-  if(to==='n'){
-    text=`${subject} の物質量は何 mol か。`;
-  }
-
-  if(to==='v'){
-    text=
-      `${subject} の標準状態における体積は何 L か。`;
-  }
-
-  if(to==='p'){
-    text=
-      `${subject} に含まれる${particle}は何個か。`;
-  }
-
-  if(to==='a'){
-    text=
-      `${subject} に含まれる${atomName}原子は何個か。`;
-  }
-
-  // ==================================
-  // ヒント
-  // ==================================
+  let text=
+    (pair.includes('v')?'標準状態で、':'')+
+    given+
+    `${labels[to]}は何 ${units[to]} か。`;
 
   const toMolHints={
     m:'質量をモル質量で割る。',
@@ -199,13 +1217,8 @@ function generate(){
   }
 
   if(to==='a'){
-    hint+=
-      ` 1分子中の${atomName}原子は${atomCount}個。`;
+    hint+=` 1分子中の${atomName}原子は${atomCount}個。`;
   }
-
-  // ==================================
-  // 解説・模範解答
-  // ==================================
 
   const explain=
     (pair.includes('m')?
@@ -231,3 +1244,1131 @@ function generate(){
       `${formatNumber(vals[to])} ${units[to]}`
   };
 }
+
+// ========================================
+// 画面切り替え
+// ========================================
+
+function showScreen(id){
+
+  if(id!=='battle'){
+
+    active=false;
+    clearInterval(timer);
+    timer=null;
+  }
+
+  document.querySelectorAll('.screen')
+    .forEach(s=>
+      s.classList.toggle('active',s.id===id)
+    );
+
+  window.scrollTo(0,0);
+}
+
+// ========================================
+// バトル開始
+// ========================================
+
+function startBattle(l=1,t=false){
+
+  clearInterval(timer);
+
+  initialLevel=l;
+  level=l;
+  timed=t;
+
+  correct=0;
+  kills=0;
+  attempts=0;
+  streak=0;
+  bestStreak=0;
+  hints=0;
+
+  defeated=[];
+  lastText='';
+
+  active=true;
+
+  chooseMonster();
+
+  showScreen('battle');
+
+  loadQuestion();
+
+  deadline=Date.now()+420000;
+
+  tick();
+
+  if(timed){
+    timer=setInterval(tick,200);
+  }
+}
+
+function chooseMonster(){
+
+  const pool=stages[level-1].enemies;
+
+  monsterId=pool[kills%pool.length];
+
+  monsterHP=MAX_HP;
+
+  updateStatus();
+}
+
+// ========================================
+// タイマー
+// ========================================
+
+function tick(){
+
+  if(!active)return;
+
+  if(!timed){
+
+    $('clock').textContent='通常クエスト';
+    $('clock').className='clock';
+
+    return;
+  }
+
+  const sec=Math.max(
+    0,
+    Math.ceil((deadline-Date.now())/1000)
+  );
+
+  const min=Math.floor(sec/60);
+
+  const rest=String(sec%60).padStart(2,'0');
+
+  $('clock').textContent=`⏱ ${min}:${rest}`;
+
+  $('clock').className=
+    sec<=30?'clock danger':'clock';
+
+  if(sec===0){
+    finish('time');
+  }
+}
+
+// ========================================
+// バトル表示
+// ========================================
+
+function updateStatus(){
+
+  const m=monsters[monsterId];
+
+  $('monsterIcon').textContent=m[0];
+  $('monsterName').textContent=m[1];
+
+  $('monsterHP').textContent=
+    `HP：${monsterHP} / ${MAX_HP}`;
+
+  $('hpBar').style.width=
+    monsterHP/MAX_HP*100+'%';
+
+  $('hpBar').style.background=
+    monsterHP<=20?'#fb7185':
+    monsterHP<=40?'#facc15':
+    '#4ade80';
+
+  $('levelDisplay').textContent=level;
+  $('correctDisplay').textContent=correct;
+  $('killDisplay').textContent=kills;
+
+  $('stageName').textContent=
+    stages[level-1].name;
+}
+
+// ========================================
+// 問題の読み込み
+// ========================================
+
+function loadQuestion(){
+
+  let newQuestion;
+
+  do{
+    newQuestion=generate();
+  }while(newQuestion.text===lastText);
+
+  q=newQuestion;
+
+  lastText=q.text;
+
+  expression='';
+  cursor=0;
+  locked=false;
+  helpMode='';
+  hintUsed=false;
+
+  $('category').textContent=q.category;
+  $('question').textContent=q.text;
+  $('unit').textContent='答えの単位：'+q.unit;
+
+  $('progress').textContent=
+    `第${correct+1}問`;
+
+  $('feedback').className='feedback';
+  $('help').className='help';
+  $('next').className='btn gold wide next';
+
+  $('attack').disabled=false;
+  $('hintBtn').disabled=false;
+  $('explainBtn').disabled=true;
+  $('modelBtn').disabled=true;
+
+  $('powerDisplay').textContent='攻撃力：20';
+
+  $('powerDisplay').style.color='#aebfe7';
+
+  updateStatus();
+  updateDisplay();
+}
+
+// ========================================
+// 電卓
+// ========================================
+
+function insert(s){
+
+  if(locked||!active)return;
+
+  if(expression.length+s.length>120)return;
+
+  expression=
+    expression.slice(0,cursor)+
+    s+
+    expression.slice(cursor);
+
+  cursor+=s.length;
+
+  updateDisplay();
+}
+
+function moveCursor(n){
+
+  if(locked)return;
+
+  cursor=Math.max(
+    0,
+    Math.min(expression.length,cursor+n)
+  );
+
+  updateDisplay();
+}
+
+function clearInput(){
+
+  if(locked)return;
+
+  expression='';
+  cursor=0;
+
+  updateDisplay();
+}
+
+function backspace(){
+
+  if(locked||cursor===0)return;
+
+  expression=
+    expression.slice(0,cursor-1)+
+    expression.slice(cursor);
+
+  cursor--;
+
+  updateDisplay();
+}
+
+// ========================================
+// 指数表示・リアルタイム計算
+// ========================================
+
+function updateDisplay(){
+
+  let html='';
+  let inExp=false;
+
+  for(let i=0;i<=expression.length;i++){
+
+    const c=expression[i];
+
+    if(inExp&&i<expression.length&&!(
+      /[0-9]/.test(c)||
+      (/[+\-]/.test(c)&&expression[i-1]==='E')
+    )){
+
+      html+='</sup>';
+      inExp=false;
+    }
+
+    if(i===cursor&&!locked){
+      html+='<span class="caret"></span>';
+    }
+
+    if(i===expression.length)break;
+
+    if(c==='E'){
+
+      html+='×10<sup>';
+      inExp=true;
+
+      continue;
+    }
+
+    html+=
+      c==='*'?'×':
+      c==='/'?'÷':
+      c==='-'?'−':c;
+  }
+
+  if(inExp){
+    html+='</sup>';
+  }
+
+  $('expression').innerHTML=html;
+
+  try{
+
+    const v=parseMath(expression).value;
+
+    $('live').textContent=
+      '= '+formatNumber(v)+' '+q.unit;
+
+  }catch{
+
+    $('live').textContent='= —';
+  }
+}
+
+// ========================================
+// 安全な数式解析
+// ========================================
+
+function parseMath(s){
+
+  const tokens=[];
+
+  let pos=0;
+
+  while(pos<s.length){
+
+    const part=s.slice(pos);
+
+    const m=part.match(
+      /^(?:\d+(?:\.\d*)?|\.\d+)(?:E[+\-]?\d+)?/
+    );
+
+    if(m){
+
+      const v=Number(m[0]);
+
+      if(!Number.isFinite(v)){
+        throw Error('invalid number');
+      }
+
+      tokens.push({
+        type:'num',
+        value:v
+      });
+
+      pos+=m[0].length;
+
+      continue;
+    }
+
+    const c=s[pos];
+
+    if('+-*/()'.includes(c)){
+
+      tokens.push({type:c});
+
+      pos++;
+
+      continue;
+    }
+
+    throw Error('invalid');
+  }
+
+  let i=0;
+
+  const peek=()=>tokens[i]?.type;
+
+  function primary(){
+
+    if(peek()==='num'){
+
+      return {
+        op:'num',
+        value:tokens[i++].value
+      };
+    }
+
+    if(peek()==='('){
+
+      i++;
+
+      const a=addition();
+
+      if(peek()!==')'){
+        throw Error('parenthesis');
+      }
+
+      i++;
+
+      return a;
+    }
+
+    throw Error('number');
+  }
+
+  function unary(){
+
+    if(peek()==='+'||peek()==='-'){
+
+      const op=tokens[i++].type;
+
+      const a=unary();
+
+      return op==='+'?
+        a:
+        {op:'neg',arg:a};
+    }
+
+    return primary();
+  }
+
+  function multiplication(){
+
+    let a=unary();
+
+    while(peek()==='*'||peek()==='/'){
+
+      const op=tokens[i++].type;
+
+      a={
+        op:op,
+        left:a,
+        right:unary()
+      };
+    }
+
+    return a;
+  }
+
+  function addition(){
+
+    let a=multiplication();
+
+    while(peek()==='+'||peek()==='-'){
+
+      const op=tokens[i++].type;
+
+      a={
+        op:op,
+        left:a,
+        right:multiplication()
+      };
+    }
+
+    return a;
+  }
+
+  if(!tokens.length){
+    throw Error('empty');
+  }
+
+  const tree=addition();
+
+  if(i!==tokens.length){
+    throw Error('extra');
+  }
+
+  const value=calcNode(tree);
+
+  if(!Number.isFinite(value)){
+    throw Error('not finite');
+  }
+
+  return {tree,value};
+}
+
+function calcNode(node){
+
+  if(node.op==='num'){
+    return node.value;
+  }
+
+  if(node.op==='neg'){
+    return -calcNode(node.arg);
+  }
+
+  const a=calcNode(node.left);
+  const b=calcNode(node.right);
+
+  switch(node.op){
+
+    case '+':return a+b;
+    case '-':return a-b;
+    case '*':return a*b;
+    case '/':return a/b;
+  }
+
+  return NaN;
+}
+
+// ========================================
+// 数値判定
+// ========================================
+
+function approx(a,b){
+
+  return Number.isFinite(a)&&
+    Number.isFinite(b)&&
+    Math.abs(a-b)<=
+    Math.max(1e-30,Math.abs(b)*1e-8);
+}
+
+// ========================================
+// Ver.3.1 柔軟な計算式判定
+// ========================================
+
+// 掛け算・割り算の構造を解析する。
+// 部分計算をまとめた形と、展開した形を作る。
+
+function factorPatterns(node,sign=1){
+
+  const value=calcNode(node);
+
+  if(!Number.isFinite(value)){
+    return [];
+  }
+
+  const patterns=[[
+    {
+      value:value,
+      sign:sign
+    }
+  ]];
+
+  if(node.op==='*'||node.op==='/'){
+
+    const left=factorPatterns(
+      node.left,
+      sign
+    );
+
+    const right=factorPatterns(
+      node.right,
+      node.op==='/'?-sign:sign
+    );
+
+    for(const a of left){
+
+      for(const b of right){
+
+        patterns.push([...a,...b]);
+
+        if(patterns.length>=256){
+          return patterns;
+        }
+      }
+    }
+  }
+
+  return patterns;
+}
+
+// 因数の順序を無視して比較
+
+function compareFactors(actual,expected){
+
+  const used=new Array(actual.length)
+    .fill(false);
+
+  for(const target of expected){
+
+    const index=actual.findIndex((a,i)=>
+      !used[i]&&
+      a.sign===target.sign&&
+      approx(a.value,target.value)
+    );
+
+    if(index===-1){
+
+      // ×1 や ÷1 の省略を許容
+      if(approx(target.value,1)){
+        continue;
+      }
+
+      return false;
+    }
+
+    used[index]=true;
+  }
+
+  // 余分な因数は1のみ許容
+
+  return actual.every((a,i)=>
+    used[i]||approx(a.value,1)
+  );
+}
+
+// 計算式の最終判定
+
+function formulaOK(question,tree){
+
+  // 答えだけの入力は不可
+
+  if(tree.op==='num'){
+    return false;
+  }
+
+  // 換算計算を含む必要がある
+
+  if(tree.op!=='*'&&tree.op!=='/'){
+    return false;
+  }
+
+  // 計算結果を確認
+
+  if(!approx(
+    calcNode(tree),
+    question.answer
+  )){
+    return false;
+  }
+
+  const expected=question.expected;
+
+  const patterns=factorPatterns(tree);
+
+  for(const pattern of patterns){
+
+    // 式全体を答えとして扱わない
+
+    if(pattern.length<2){
+      continue;
+    }
+
+    if(compareFactors(pattern,expected)){
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// ========================================
+// フィードバック
+// ========================================
+
+function feedback(text,kind){
+
+  const el=$('feedback');
+
+  el.className='feedback show '+kind;
+
+  el.textContent=text;
+}
+
+// ========================================
+// 解答・攻撃
+// ========================================
+
+function checkAnswer(){
+
+  if(locked||!active)return;
+
+  if(timed&&Date.now()>=deadline){
+
+    finish('time');
+
+    return;
+  }
+
+  let parsed;
+
+  try{
+
+    parsed=parseMath(expression);
+
+  }catch{
+
+    feedback(
+      '⚠️ 式が完成していないよ。括弧や指数を確認してね。',
+      'warn'
+    );
+
+    return;
+  }
+
+  attempts++;
+
+  // 計算結果が違う場合
+
+  if(!approx(parsed.value,q.answer)){
+
+    streak=0;
+
+    feedback(
+      '❌ 計算結果が違うよ。まほうのちずを見て、掛け算と割り算の方向を確認しよう！',
+      'bad'
+    );
+
+    return;
+  }
+
+  // 数値は合っているが式が違う場合
+
+  if(!formulaOK(q,parsed.tree)){
+
+    streak=0;
+
+    feedback(
+      '💡 答えは合っているよ！ 問題で与えられた数値や必要な換算を計算式に表してみよう。',
+      'warn'
+    );
+
+    return;
+  }
+
+  // 正解
+
+  locked=true;
+
+  correct++;
+  streak++;
+
+  bestStreak=Math.max(
+    bestStreak,
+    streak
+  );
+
+  const damage=hintUsed?10:20;
+
+  monsterHP=Math.max(
+    0,
+    monsterHP-damage
+  );
+
+  const icon=$('monsterIcon');
+
+  icon.classList.remove('hit');
+
+  void icon.offsetWidth;
+
+  icon.classList.add('hit');
+
+  let message=
+    `🎉 正解！ 計算式も答えもOK！ `+
+    `${damage}ダメージ！`;
+
+  if(monsterHP===0){
+
+    defeated.push(monsterId);
+
+    kills++;
+
+    message+=
+      ` ${monsters[monsterId][1]}を討伐した！`;
+  }
+
+  updateStatus();
+
+  $('attack').disabled=true;
+  $('hintBtn').disabled=true;
+  $('explainBtn').disabled=false;
+  $('modelBtn').disabled=false;
+
+  feedback(message,'ok');
+
+  $('next').textContent=
+    !timed&&kills>=3?
+      '🏆 結果を見る':
+    monsterHP===0?
+      '次のモンスターへ ▶':
+      '次の問題へ ▶';
+
+  $('next').className=
+    'btn gold wide next show';
+
+  updateDisplay();
+
+  // 討伐記録を随時保存
+
+  persist();
+}
+
+// ========================================
+// 次の問題
+// ========================================
+
+function nextQuestion(){
+
+  if(!locked||!active)return;
+
+  if(timed&&Date.now()>=deadline){
+
+    finish('time');
+
+    return;
+  }
+
+  if(!timed&&kills>=3){
+
+    finish('clear');
+
+    return;
+  }
+
+  if(monsterHP===0){
+
+    if(timed){
+
+      level=Math.min(
+        4,
+        1+Math.floor(kills/2)
+      );
+    }
+
+    chooseMonster();
+  }
+
+  loadQuestion();
+
+  window.scrollTo(0,0);
+}
+
+// ========================================
+// ヒント・解説・模範解答
+// ========================================
+
+function toggleHelp(mode){
+
+  if(!active)return;
+
+  if(!locked&&mode!=='hint'){
+    return;
+  }
+
+  if(!locked&&mode==='hint'&&!hintUsed){
+
+    hintUsed=true;
+
+    hints++;
+
+    $('powerDisplay').textContent=
+      '攻撃力：10（ヒント使用）';
+
+    $('powerDisplay').style.color='#ffcb65';
+  }
+
+  const el=$('help');
+
+  if(helpMode===mode){
+
+    helpMode='';
+
+    el.className='help';
+
+    return;
+  }
+
+  helpMode=mode;
+
+  const labels={
+    hint:'💡 ヒント（攻撃力半減）',
+    explain:'📖 解説',
+    model:'📝 模範解答'
+  };
+
+  el.textContent='';
+
+  const heading=document.createElement('strong');
+
+  heading.textContent=labels[mode];
+
+  el.appendChild(heading);
+
+  el.appendChild(document.createElement('br'));
+
+  el.appendChild(
+    document.createTextNode(q[mode])
+  );
+
+  el.className='help show';
+}
+
+// ========================================
+// 記録保存
+// ========================================
+
+function saved(){
+
+  const empty={
+    best:0,
+    kills:0,
+    collection:[]
+  };
+
+  try{
+
+    const data=JSON.parse(
+      localStorage.getItem('molQuest31')
+    );
+
+    if(!data)return empty;
+
+    return {
+      best:Number(data.best)||0,
+      kills:Number(data.kills)||0,
+      collection:
+        Array.isArray(data.collection)?
+        data.collection:[]
+    };
+
+  }catch{
+
+    return empty;
+  }
+}
+
+function persist(completed=false){
+
+  const r=saved();
+
+  if(timed&&completed){
+
+    r.best=Math.max(r.best,correct);
+
+    r.kills=Math.max(r.kills,kills);
+  }
+
+  r.collection=[
+    ...new Set([
+      ...r.collection,
+      ...defeated
+    ])
+  ];
+
+  try{
+
+    localStorage.setItem(
+      'molQuest31',
+      JSON.stringify(r)
+    );
+
+  }catch{}
+}
+
+// ========================================
+// 結果画面
+// ========================================
+
+function finish(reason){
+
+  if(!active)return;
+
+  active=false;
+
+  clearInterval(timer);
+
+  const old=saved();
+
+  const newRecord=
+    timed&&reason==='time'&&
+    (correct>old.best||kills>old.kills);
+
+  persist(reason==='time');
+
+  $('endTitle').textContent=
+    reason==='time'?'TIME UP!':
+    reason==='clear'?'VICTORY!':
+    'RESULT';
+
+  $('endMessage').textContent=
+    newRecord?'✨ 自己ベスト更新！':
+    reason==='clear'?'クエストクリア！':
+    '冒険おつかれさま！';
+
+  const accuracy=attempts?
+    Math.round(correct/attempts*100):0;
+
+  const rows=[
+    ['討伐数',kills+'体'],
+    ['正解数',correct+'問'],
+    ['到達レベル','Lv.'+level],
+    ['正答率',accuracy+'%'],
+    ['最大連続正解',bestStreak+'問'],
+    ['ヒント使用',hints+'回']
+  ];
+
+  $('summary').innerHTML=rows.map(([a,b])=>
+    `<div class="result-row">
+      <span>${a}</span>
+      <b>${b}</b>
+    </div>`
+  ).join('');
+
+  const unique=[...new Set(defeated)];
+
+  $('defeatedList').innerHTML=
+    unique.length?
+    unique.map(id=>{
+
+      const count=defeated.filter(
+        x=>x===id
+      ).length;
+
+      return `
+        <div class="monster-card">
+          <div class="emoji">
+            ${monsters[id][0]}
+          </div>
+          ${monsters[id][1]}<br>
+          ×${count}
+        </div>`;
+    }).join(''):
+    '<p class="muted">今回は討伐なし</p>';
+
+  showScreen('victory');
+}
+
+// ========================================
+// 図鑑・自己ベスト
+// ========================================
+
+function showRecords(collection){
+
+  const r=saved();
+
+  if(collection){
+
+    $('recordTitle').textContent=
+      `モンスター図鑑 ${r.collection.length}/9`;
+
+    $('recordBody').innerHTML=
+      '<div class="collection">'+
+      monsters.map((m,i)=>{
+
+        const found=r.collection.includes(i);
+
+        return `
+          <div class="monster-card ${found?'':'unknown'}">
+            <div class="emoji">
+              ${found?m[0]:'❔'}
+            </div>
+            ${found?m[1]:'未発見'}
+          </div>`;
+      }).join('')+
+      '</div>';
+
+  }else{
+
+    $('recordTitle').textContent=
+      '🏆 7分間チャレンジ 自己ベスト';
+
+    $('recordBody').innerHTML=`
+      <div class="result-row">
+        <span>最高正解数</span>
+        <b>${r.best}問</b>
+      </div>
+
+      <div class="result-row">
+        <span>最高討伐数</span>
+        <b>${r.kills}体</b>
+      </div>
+
+      <p class="muted">
+        記録はこのブラウザに保存されます。
+      </p>`;
+  }
+
+  showScreen('records');
+}
+
+// ========================================
+// 冒険終了
+// ========================================
+
+function quitBattle(){
+
+  if(!active)return;
+
+  if(confirm('冒険を終了しますか？')){
+
+    finish('quit');
+  }
+}
+
+// ========================================
+// キーボード入力にも対応
+// ========================================
+
+document.addEventListener('keydown',e=>{
+
+  if(!active)return;
+
+  if(e.ctrlKey||e.metaKey||e.altKey)return;
+
+  if(locked){
+
+    if(e.key==='Enter'){
+
+      e.preventDefault();
+
+      nextQuestion();
+    }
+
+    return;
+  }
+
+  if(/^[0-9.+\-*/()]$/.test(e.key)){
+
+    e.preventDefault();
+
+    insert(e.key);
+
+  }else if(e.key==='e'||e.key==='E'){
+
+    e.preventDefault();
+
+    insert('E');
+
+  }else if(e.key==='Backspace'){
+
+    e.preventDefault();
+
+    backspace();
+
+  }else if(e.key==='ArrowLeft'){
+
+    e.preventDefault();
+
+    moveCursor(-1);
+
+  }else if(e.key==='ArrowRight'){
+
+    e.preventDefault();
+
+    moveCursor(1);
+
+  }else if(e.key==='Escape'){
+
+    clearInput();
+
+  }else if(e.key==='Enter'){
+
+    e.preventDefault();
+
+    checkAnswer();
+  }
+});
+
+</script>
+</body>
+</html>
