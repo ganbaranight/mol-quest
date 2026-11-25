@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MOL QUEST Ver.3.1</title>
+<title>MOL QUEST Ver.3.2</title>
 
 <style>
 *{box-sizing:border-box}
@@ -73,10 +73,7 @@ p{line-height:1.7}
   opacity:.45;
   cursor:default;
 }
-.muted{
-  color:#aebfe7;
-  font-size:13px;
-}
+.muted{color:#aebfe7;font-size:13px}
 .hp-track{
   height:16px;
   background:#26314d;
@@ -143,9 +140,7 @@ p{line-height:1.7}
   background:#ffdb58;
   animation:blink 1s step-end infinite;
 }
-@keyframes blink{
-  50%{opacity:0}
-}
+@keyframes blink{50%{opacity:0}}
 .live{
   font-size:18px;
   font-weight:bold;
@@ -190,10 +185,7 @@ p{line-height:1.7}
   margin-top:10px;
   flex-wrap:wrap;
 }
-.action-row .btn{
-  flex:1;
-  min-width:95px;
-}
+.action-row .btn{flex:1;min-width:95px}
 .feedback{
   border-radius:11px;
   padding:12px;
@@ -256,20 +248,13 @@ p{line-height:1.7}
 }
 .atom b{font-size:15px}
 .atom span{color:#aeb9df}
-.map svg{
-  display:block;
-  width:100%;
-  height:auto;
-}
+.map svg{display:block;width:100%;height:auto}
 .map-note{
   font-size:13px;
   color:#b8c7e8;
   line-height:1.7;
 }
-.next{
-  display:none;
-  margin-top:10px;
-}
+.next{display:none;margin-top:10px}
 .next.show{display:block}
 .clock{
   font-size:30px;
@@ -308,10 +293,7 @@ p{line-height:1.7}
   padding:15px 5px;
   font-size:12px;
 }
-.monster-card .emoji{
-  font-size:40px;
-  margin-bottom:7px;
-}
+.monster-card .emoji{font-size:40px;margin-bottom:7px}
 .monster-card.unknown{opacity:.45}
 .result-row{
   display:flex;
@@ -328,18 +310,14 @@ p{line-height:1.7}
   margin-top:6px;
   color:#c6d3f4;
 }
-.hit{
-  animation:hit .35s ease;
-}
+.hit{animation:hit .35s ease}
 @keyframes hit{
   25%{transform:translateX(-8px);opacity:.5}
   50%{transform:translateX(8px)}
   75%{transform:translateX(-4px)}
 }
 @media(max-width:380px){
-  .atoms{
-    grid-template-columns:repeat(4,minmax(0,1fr))
-  }
+  .atoms{grid-template-columns:repeat(4,minmax(0,1fr))}
   .key{min-height:48px}
   .panel{padding:12px}
 }
@@ -355,30 +333,24 @@ p{line-height:1.7}
   <div class="panel center" style="padding:48px 18px">
     <div class="symbol">⚗️✨</div>
     <h1>MOL QUEST</h1>
-    <div class="muted">
-      THE ADVENTURE OF CHEMISTRY
-    </div>
-
+    <div class="muted">THE ADVENTURE OF CHEMISTRY</div>
     <p class="story">
       ここは、物質の不思議が眠る世界。<br>
       モルの力を手に入れ、<br>
       化学の冒険に出発しよう！
     </p>
-
     <button class="btn gold wide"
       onclick="showScreen('menu')">
       ▶ 冒険をはじめる
     </button>
-
-    <p class="muted">VERSION 3.1</p>
+    <p class="muted">VERSION 3.2</p>
   </div>
 </section>
 
-<!-- メニュー画面 -->
+<!-- メニュー -->
 
 <section id="menu" class="screen">
   <div class="panel center">
-
     <div class="symbol">🧙‍♂️</div>
     <h1 style="font-size:35px">冒険の準備</h1>
     <p>どの冒険に挑戦する？</p>
@@ -407,7 +379,6 @@ p{line-height:1.7}
       onclick="showScreen('title')">
       タイトルに戻る
     </button>
-
   </div>
 </section>
 
@@ -416,13 +387,10 @@ p{line-height:1.7}
 <section id="levels" class="screen">
   <div class="panel center">
     <h2>冒険するステージを選択</h2>
-
     <p class="muted">
       モンスターを3体討伐するとクリア！
     </p>
-
     <div id="levelButtons"></div>
-
     <button class="btn wide"
       onclick="showScreen('menu')">
       戻る
@@ -430,39 +398,30 @@ p{line-height:1.7}
   </div>
 </section>
 
-<!-- チャレンジ説明 -->
+<!-- 7分間チャレンジ -->
 
 <section id="challenge" class="screen">
   <div class="panel center">
-
     <div class="symbol">⏳</div>
-    <h1 style="font-size:32px">
-      TIME ATTACK
-    </h1>
-
+    <h1 style="font-size:32px">TIME ATTACK</h1>
     <h2>7分間チャレンジ</h2>
-
     <p class="story">
       7分間で何体のモンスターを倒せるかな？<br>
       2体討伐するごとに難易度が上昇！
     </p>
-
     <p>
       通常攻撃：20ダメージ<br>
       ヒント使用：10ダメージ<br>
       モンスターのHP：60
     </p>
-
     <button class="btn gold wide"
       onclick="startBattle(1,true)">
       ▶ チャレンジ開始！
     </button>
-
     <button class="btn wide"
       onclick="showScreen('menu')">
       戻る
     </button>
-
   </div>
 </section>
 
@@ -472,7 +431,6 @@ p{line-height:1.7}
   <div class="panel center">
     <h2 id="recordTitle"></h2>
     <div id="recordBody"></div>
-
     <button class="btn wide"
       onclick="showScreen('menu')">
       戻る
@@ -488,9 +446,7 @@ p{line-height:1.7}
 
     <div id="clock" class="clock"></div>
     <p id="stageName" class="muted"></p>
-
     <div id="monsterIcon" class="symbol">👾</div>
-
     <h2 id="monsterName"></h2>
     <strong id="monsterHP">HP：60 / 60</strong>
 
@@ -499,42 +455,32 @@ p{line-height:1.7}
     </div>
 
     <div class="status-grid">
-
       <div class="status-box">
         LEVEL
         <b id="levelDisplay">1</b>
       </div>
-
       <div class="status-box">
         正解数
         <b id="correctDisplay">0</b>
       </div>
-
       <div class="status-box">
         討伐数
         <b id="killDisplay">0</b>
       </div>
-
     </div>
 
     <div id="powerDisplay" class="muted">
       攻撃力：20
     </div>
-
   </div>
 
   <!-- 問題 -->
 
   <div class="panel">
-
     <div id="progress" class="muted"></div>
-
     <span class="tag" id="category"></span>
-
     <p class="question" id="question"></p>
-
     <div class="muted" id="unit"></div>
-
   </div>
 
   <!-- 電卓 -->
@@ -542,89 +488,66 @@ p{line-height:1.7}
   <div class="calc">
 
     <div class="display">
-
       <div class="display-label">
         計算式（◀ ▶ でカーソル移動）
       </div>
-
-      <div id="expression"
-        class="expression"></div>
-
+      <div id="expression" class="expression"></div>
       <div id="live" class="live">= —</div>
-
     </div>
 
     <div class="keys">
 
       <button class="key clear"
         onclick="clearInput()">C</button>
-
       <button class="key tool"
         onclick="backspace()">⌫</button>
-
       <button class="key tool"
         onclick="moveCursor(-1)">◀</button>
-
       <button class="key tool"
         onclick="moveCursor(1)">▶</button>
 
       <button class="key"
         onclick="insert('7')">7</button>
-
       <button class="key"
         onclick="insert('8')">8</button>
-
       <button class="key"
         onclick="insert('9')">9</button>
-
       <button class="key tool"
         onclick="insert('/')">÷</button>
 
       <button class="key"
         onclick="insert('4')">4</button>
-
       <button class="key"
         onclick="insert('5')">5</button>
-
       <button class="key"
         onclick="insert('6')">6</button>
-
       <button class="key tool"
         onclick="insert('*')">×</button>
 
       <button class="key"
         onclick="insert('1')">1</button>
-
       <button class="key"
         onclick="insert('2')">2</button>
-
       <button class="key"
         onclick="insert('3')">3</button>
-
       <button class="key tool"
         onclick="insert('-')">−</button>
 
       <button class="key"
         onclick="insert('0')">0</button>
-
       <button class="key"
         onclick="insert('.')">.</button>
-
       <button class="key special"
         onclick="insert('E')">×10ˣ</button>
-
       <button class="key tool"
         onclick="insert('+')">+</button>
 
       <button class="key tool"
         onclick="insert('(')">(</button>
-
       <button class="key tool"
         onclick="insert(')')">)</button>
-
       <button class="key special"
         onclick="insert('6.0E23')">Nₐ</button>
-
       <button class="key special"
         onclick="insert('22.4')">22.4</button>
 
@@ -637,7 +560,6 @@ p{line-height:1.7}
     </div>
 
     <div class="action-row">
-
       <button class="btn"
         id="hintBtn"
         onclick="toggleHelp('hint')">
@@ -655,13 +577,10 @@ p{line-height:1.7}
         onclick="toggleHelp('model')">
         📝 模範解答
       </button>
-
     </div>
 
     <div id="help" class="help"></div>
-
-    <div id="feedback"
-      class="feedback"
+    <div id="feedback" class="feedback"
       aria-live="polite"></div>
 
     <button id="next"
@@ -675,7 +594,6 @@ p{line-height:1.7}
   <!-- 定数・原子量 -->
 
   <div class="constants">
-
     <h2>つかう ていすう</h2>
 
     <div class="constant-row">
@@ -689,9 +607,7 @@ p{line-height:1.7}
     </div>
 
     <h2 style="margin-top:24px">原子量</h2>
-
     <div class="atoms" id="atoms"></div>
-
   </div>
 
   <!-- まほうのちず -->
@@ -719,56 +635,42 @@ p{line-height:1.7}
 
         <rect x="121" y="183"
           width="98" height="82" rx="9"/>
-
       </g>
 
       <g text-anchor="middle"
         fill="#fff" font-size="14">
-
         <text x="44" y="80">質量</text>
         <text x="170" y="80">物質量</text>
         <text x="295" y="80">粒子数</text>
         <text x="170" y="207">気体の体積</text>
-
       </g>
 
       <g text-anchor="middle"
-        fill="#fff"
-        font-size="25"
+        fill="#fff" font-size="25"
         font-weight="bold">
-
         <text x="44" y="112">m</text>
         <text x="170" y="112">n</text>
         <text x="295" y="112">N</text>
         <text x="170" y="237">V</text>
-
       </g>
 
       <g text-anchor="middle"
-        fill="#a9b6df"
-        font-size="12">
-
+        fill="#a9b6df" font-size="12">
         <text x="44" y="131">g</text>
         <text x="170" y="131">mol</text>
         <text x="295" y="131">個</text>
         <text x="170" y="256">L</text>
-
       </g>
 
       <g text-anchor="middle"
-        fill="#ffda62"
-        font-size="11"
+        fill="#ffda62" font-size="11"
         font-weight="bold">
-
         <text x="107" y="80">÷M →</text>
         <text x="107" y="116">← ×M</text>
-
         <text x="233" y="80">×Nₐ →</text>
         <text x="233" y="116">← ÷Nₐ</text>
-
         <text x="230" y="168">↓ ×22.4</text>
         <text x="105" y="168">↑ ÷22.4</text>
-
       </g>
 
       <path d="M170 142 V181"
@@ -780,9 +682,7 @@ p{line-height:1.7}
         fill="#c9d3f1"
         text-anchor="middle"
         font-size="13">
-
         まず物質量 n に直して考えよう
-
       </text>
 
     </svg>
@@ -804,12 +704,10 @@ p{line-height:1.7}
 <!-- 結果画面 -->
 
 <section id="victory" class="screen">
-
   <div class="panel center">
 
     <div class="symbol">🏆✨</div>
     <h1 id="endTitle">RESULT</h1>
-
     <p id="endMessage" class="story"></p>
 
     <div id="summary"></div>
@@ -832,7 +730,6 @@ p{line-height:1.7}
     </button>
 
   </div>
-
 </section>
 
 </main>
@@ -872,7 +769,7 @@ $('atoms').innerHTML=atoms.map(([a,v])=>
 
 // ========================================
 // 物質データ
-// 名前・化学式・モル質量の式
+// 名前・化学式・モル質量の計算式
 // 気体か・原子数・元素名・粒子の種類
 // ========================================
 
@@ -888,22 +785,26 @@ const substances=[
   ['エタン','C₂H₆','12*2+1*6',true,6,'水素','分子'],
   ['プロパン','C₃H₈','12*3+1*8',true,8,'水素','分子'],
   ['二酸化硫黄','SO₂','32+16*2',true,2,'酸素','分子'],
-  ['塩化ナトリウム','NaCl','23+35.5',false,0,'','式単位'],
-  ['水酸化ナトリウム','NaOH','23+16+1',false,0,'','式単位'],
-  ['炭酸カルシウム','CaCO₃','40+12+16*3',false,0,'','式単位'],
-  ['硫酸アルミニウム','Al₂(SO₄)₃','27*2+(32+16*4)*3',false,0,'','式単位'],
-  ['水酸化カルシウム','Ca(OH)₂','40+(16+1)*2',false,0,'','式単位'],
-  ['炭酸ナトリウム','Na₂CO₃','23*2+12+16*3',false,0,'','式単位'],
+
+  ['塩化ナトリウム','NaCl','23+35.5',false,0,'','組成式で表される粒子'],
+  ['水酸化ナトリウム','NaOH','23+16+1',false,0,'','組成式で表される粒子'],
+  ['炭酸カルシウム','CaCO₃','40+12+16*3',false,0,'','組成式で表される粒子'],
+  ['硫酸アルミニウム','Al₂(SO₄)₃','27*2+(32+16*4)*3',false,0,'','組成式で表される粒子'],
+  ['水酸化カルシウム','Ca(OH)₂','40+(16+1)*2',false,0,'','組成式で表される粒子'],
+  ['炭酸ナトリウム','Na₂CO₃','23*2+12+16*3',false,0,'','組成式で表される粒子'],
+
   ['エタノール','C₂H₅OH','12*2+1*6+16',false,6,'水素','分子'],
   ['グルコース','C₆H₁₂O₆','12*6+1*12+16*6',false,12,'水素','分子'],
   ['塩素','Cl₂','35.5*2',true,2,'塩素','分子'],
   ['塩化水素','HCl','1+35.5',true,1,'水素','分子'],
   ['硫酸','H₂SO₄','1*2+32+16*4',false,4,'酸素','分子'],
   ['硝酸','HNO₃','1+14+16*3',false,3,'酸素','分子'],
-  ['酸化アルミニウム','Al₂O₃','27*2+16*3',false,0,'','式単位'],
-  ['酸化鉄(III)','Fe₂O₃','56*2+16*3',false,0,'','式単位'],
-  ['硫酸銅','CuSO₄','64+32+16*4',false,0,'','式単位'],
-  ['塩化カルシウム','CaCl₂','40+35.5*2',false,0,'','式単位'],
+
+  ['酸化アルミニウム','Al₂O₃','27*2+16*3',false,0,'','組成式で表される粒子'],
+  ['酸化鉄(III)','Fe₂O₃','56*2+16*3',false,0,'','組成式で表される粒子'],
+  ['硫酸銅(II)','CuSO₄','64+32+16*4',false,0,'','組成式で表される粒子'],
+  ['塩化カルシウム','CaCl₂','40+35.5*2',false,0,'','組成式で表される粒子'],
+
   ['鉄','Fe','56',false,0,'','原子'],
   ['銅','Cu','64',false,0,'','原子'],
   ['アルミニウム','Al','27',false,0,'','原子']
@@ -999,7 +900,7 @@ const clean=n=>
   Number(n.toPrecision(12));
 
 // ========================================
-// 数値の表示
+// 数値表示
 // ========================================
 
 function sci(n){
@@ -1009,7 +910,7 @@ function sci(n){
   if(Math.abs(n)>=1e9||
     (n!==0&&Math.abs(n)<.001)){
 
-    return n.toExponential(8)
+    return n.toExponential(10)
       .replace(/\.?0+e/,'e')
       .replace('e+','E')
       .replace('e-','E-');
@@ -1050,7 +951,7 @@ function formatNumber(n){
 }
 
 // ========================================
-// 問題の自動生成
+// 問題文の生成 Ver.3.2
 // ========================================
 
 function generate(){
@@ -1113,9 +1014,9 @@ function generate(){
   const labels={
     m:'質量',
     n:'物質量',
-    p:particle+'の数',
+    p:'粒子数',
     v:'気体の体積',
-    a:atomName+'原子の数'
+    a:'原子数'
   };
 
   const start=sci(vals[from]);
@@ -1133,8 +1034,6 @@ function generate(){
   };
 
   let model=start;
-
-  // 判定に必要な数値と演算方向
 
   const expected=[
     {value:vals[from],sign:1}
@@ -1174,25 +1073,81 @@ function generate(){
     });
   }
 
-  let given;
+  // 自然な問題文を生成
+
+  const substance=`${name} ${formula}`;
+  const amount=pretty(start);
+
+  const ionic=
+    particle==='組成式で表される粒子';
+
+  let subject='';
+
+  if(from==='m'){
+    subject=`${substance} ${amount} g`;
+  }
+
+  if(from==='n'){
+    subject=`${substance} ${amount} mol`;
+  }
 
   if(from==='p'){
 
-    given=
-      `${name} ${formula} の${particle}が `+
-      `${pretty(start)} 個ある。`;
+    if(ionic){
 
-  }else{
+      subject=
+        `${substance} の組成式 ${formula} で表される粒子 ${amount} 個`;
 
-    given=
-      `${name} ${formula} が `+
-      `${pretty(start)} ${units[from]} ある。`;
+    }else{
+
+      subject=
+        `${substance} の${particle} ${amount} 個`;
+    }
   }
 
-  let text=
-    (pair.includes('v')?'標準状態で、':'')+
-    given+
-    `${labels[to]}は何 ${units[to]} か。`;
+  if(from==='v'){
+
+    subject=
+      `標準状態における${substance} ${amount} L`;
+  }
+
+  let text='';
+
+  if(to==='m'){
+    text=`${subject} の質量は何 g か。`;
+  }
+
+  if(to==='n'){
+    text=`${subject} の物質量は何 mol か。`;
+  }
+
+  if(to==='v'){
+
+    text=
+      `${subject} の標準状態における体積は何 L か。`;
+  }
+
+  if(to==='p'){
+
+    if(ionic){
+
+      text=
+        `${subject} について、組成式 ${formula} で表される粒子の数は何個か。`;
+
+    }else{
+
+      text=
+        `${subject} に含まれる${particle}は何個か。`;
+    }
+  }
+
+  if(to==='a'){
+
+    text=
+      `${subject} に含まれる${atomName}原子は何個か。`;
+  }
+
+  // ヒント
 
   const toMolHints={
     m:'質量をモル質量で割る。',
@@ -1213,12 +1168,17 @@ function generate(){
     toMolHints[from]+' '+fromMolHints[to];
 
   if(pair.includes('m')){
+
     hint+=' モル質量は原子量から求めよう。';
   }
 
   if(to==='a'){
-    hint+=` 1分子中の${atomName}原子は${atomCount}個。`;
+
+    hint+=
+      ` 1分子中の${atomName}原子は${atomCount}個。`;
   }
+
+  // 解説
 
   const explain=
     (pair.includes('m')?
@@ -1301,6 +1261,7 @@ function startBattle(l=1,t=false){
   tick();
 
   if(timed){
+
     timer=setInterval(tick,200);
   }
 }
@@ -1347,6 +1308,7 @@ function tick(){
     sec<=30?'clock danger':'clock';
 
   if(sec===0){
+
     finish('time');
   }
 }
@@ -1382,7 +1344,7 @@ function updateStatus(){
 }
 
 // ========================================
-// 問題の読み込み
+// 問題読み込み
 // ========================================
 
 function loadQuestion(){
@@ -1390,7 +1352,9 @@ function loadQuestion(){
   let newQuestion;
 
   do{
+
     newQuestion=generate();
+
   }while(newQuestion.text===lastText);
 
   q=newQuestion;
@@ -1483,7 +1447,7 @@ function backspace(){
 }
 
 // ========================================
-// 指数表示・リアルタイム計算
+// リアルタイム計算・指数表示
 // ========================================
 
 function updateDisplay(){
@@ -1505,6 +1469,7 @@ function updateDisplay(){
     }
 
     if(i===cursor&&!locked){
+
       html+='<span class="caret"></span>';
     }
 
@@ -1525,6 +1490,7 @@ function updateDisplay(){
   }
 
   if(inExp){
+
     html+='</sup>';
   }
 
@@ -1544,7 +1510,7 @@ function updateDisplay(){
 }
 
 // ========================================
-// 安全な数式解析
+// 数式解析
 // ========================================
 
 function parseMath(s){
@@ -1566,6 +1532,7 @@ function parseMath(s){
       const v=Number(m[0]);
 
       if(!Number.isFinite(v)){
+
         throw Error('invalid number');
       }
 
@@ -1614,6 +1581,7 @@ function parseMath(s){
       const a=addition();
 
       if(peek()!==')'){
+
         throw Error('parenthesis');
       }
 
@@ -1678,18 +1646,21 @@ function parseMath(s){
   }
 
   if(!tokens.length){
+
     throw Error('empty');
   }
 
   const tree=addition();
 
   if(i!==tokens.length){
+
     throw Error('extra');
   }
 
   const value=calcNode(tree);
 
   if(!Number.isFinite(value)){
+
     throw Error('not finite');
   }
 
@@ -1699,10 +1670,12 @@ function parseMath(s){
 function calcNode(node){
 
   if(node.op==='num'){
+
     return node.value;
   }
 
   if(node.op==='neg'){
+
     return -calcNode(node.arg);
   }
 
@@ -1733,17 +1706,15 @@ function approx(a,b){
 }
 
 // ========================================
-// Ver.3.1 柔軟な計算式判定
+// 計算式判定
 // ========================================
-
-// 掛け算・割り算の構造を解析する。
-// 部分計算をまとめた形と、展開した形を作る。
 
 function factorPatterns(node,sign=1){
 
   const value=calcNode(node);
 
   if(!Number.isFinite(value)){
+
     return [];
   }
 
@@ -1773,6 +1744,7 @@ function factorPatterns(node,sign=1){
         patterns.push([...a,...b]);
 
         if(patterns.length>=256){
+
           return patterns;
         }
       }
@@ -1781,8 +1753,6 @@ function factorPatterns(node,sign=1){
 
   return patterns;
 }
-
-// 因数の順序を無視して比較
 
 function compareFactors(actual,expected){
 
@@ -1799,8 +1769,8 @@ function compareFactors(actual,expected){
 
     if(index===-1){
 
-      // ×1 や ÷1 の省略を許容
       if(approx(target.value,1)){
+
         continue;
       }
 
@@ -1810,26 +1780,22 @@ function compareFactors(actual,expected){
     used[index]=true;
   }
 
-  // 余分な因数は1のみ許容
-
   return actual.every((a,i)=>
     used[i]||approx(a.value,1)
   );
 }
 
-// 計算式の最終判定
-
 function formulaOK(question,tree){
 
-  // 答えだけの入力は不可
+  // 数値だけの入力は不可
 
   if(tree.op==='num'){
+
     return false;
   }
 
-  // 換算計算を含む必要がある
-
   if(tree.op!=='*'&&tree.op!=='/'){
+
     return false;
   }
 
@@ -1839,6 +1805,7 @@ function formulaOK(question,tree){
     calcNode(tree),
     question.answer
   )){
+
     return false;
   }
 
@@ -1848,13 +1815,13 @@ function formulaOK(question,tree){
 
   for(const pattern of patterns){
 
-    // 式全体を答えとして扱わない
-
     if(pattern.length<2){
+
       continue;
     }
 
     if(compareFactors(pattern,expected)){
+
       return true;
     }
   }
@@ -1908,7 +1875,7 @@ function checkAnswer(){
 
   attempts++;
 
-  // 計算結果が違う場合
+  // 数値が違う場合
 
   if(!approx(parsed.value,q.answer)){
 
@@ -1998,8 +1965,6 @@ function checkAnswer(){
 
   updateDisplay();
 
-  // 討伐記録を随時保存
-
   persist();
 }
 
@@ -2052,6 +2017,7 @@ function toggleHelp(mode){
   if(!active)return;
 
   if(!locked&&mode!=='hint'){
+
     return;
   }
 
@@ -2239,7 +2205,7 @@ function finish(reason){
 }
 
 // ========================================
-// 図鑑・自己ベスト
+// モンスター図鑑・自己ベスト
 // ========================================
 
 function showRecords(collection){
@@ -2306,7 +2272,7 @@ function quitBattle(){
 }
 
 // ========================================
-// キーボード入力にも対応
+// キーボード入力
 // ========================================
 
 document.addEventListener('keydown',e=>{
